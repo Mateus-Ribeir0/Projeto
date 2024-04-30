@@ -1,10 +1,10 @@
-print("Commit inicial joao")
+print("Commit inicial carlos")
 
 import os
 os.system('cls')
 
 def media(n1, n2):
-    media = (n1*1 + n2*2) / 3
+    media = (n1*1 + n2*2) /4 
     return media
 
 def situacao(media):
