@@ -1,4 +1,4 @@
-import os
+print("teste2")
 print("teste")
 
 import os
