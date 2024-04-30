@@ -1,5 +1,6 @@
 import os
 print("teste")
+print("teste3")
 
 import os
 os.system('cls')
