@@ -1,4 +1,5 @@
-print("Commit inicial mcarlsudei")
+import os
+print("teste")
 
 import os
 os.system('cls')
