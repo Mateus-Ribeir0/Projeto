@@ -1,5 +1,3 @@
-print("teste2")
-print("teste")
 
 import os
 os.system('cls')
