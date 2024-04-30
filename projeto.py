@@ -1,7 +1,7 @@
-print("teste2")
+print("teste4")
 print("teste")
 print("teste3")
-
+print("teste2")
 import os
 os.system('cls')
 
