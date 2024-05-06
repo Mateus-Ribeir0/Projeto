@@ -32,7 +32,7 @@ def cadastar_receita():
     formatador.append(nome)
 
     print("==========================")
-    pais = str(input("País de origem: "))
+    pais = str(input("País de origem: ")).capitalize()
     formatador.append(pais)
 
     print("==========================")
@@ -59,9 +59,52 @@ def cadastar_receita():
     file.close()
 
 def visualizar():
+    os.system("cls")
+    filevisiualizar=open("Repositorio_de_receitas.txt","r",encoding="utf8")
+    visualizararquivo=filevisiualizar.readlines()
+    filevisiualizar.close()
+    visulização = []
+    
+    v = 1
+    for visualizção in visualizararquivo:  # Filtrando os paises em uma lista
+        linhas = visualizção.split(' - ')
+        visulização.append(linhas[0])
+        print(f"{v} - {linhas[0]}")
+        v+=1
+    print("==========================================================")
+    numer=int(input("Digite o numero que voce quer ver a receita"))
 
+     
 
-    return 'teste2'
+    receitas_escolhida = []
+    receitas_escolhida_passos = []
+    for receitas in visualizararquivo:  # adicionando a receita escolhida em uma lista
+        if visulização[numer - 1] in receitas:
+            receitas_separada = receitas.split(' - ')
+
+            for ka in receitas_separada:  # formatando os nomes para uma melhor leitura
+                if '|' in ka and len(ka) >= 2:
+                    nomes_separado = ka.split('|')
+                    nomes_junto = '\n⚬ '.join(nomes_separado)
+                    nomes_junto_passos = '\n☛ '.join(nomes_separado)
+                    receitas_escolhida.append(nomes_junto)
+                    receitas_escolhida_passos.append(nomes_junto_passos)
+                else:
+                    receitas_escolhida.append(ka)
+                    receitas_escolhida_passos.append(ka)
+
+    os.system('cls')
+
+    print(f"\t\t   ♨  Receita {receitas_escolhida[0]}  ♨")
+    print("==========================================================")
+    print(f"Ingredientes:\n\n⚬ {receitas_escolhida[2]}\n")
+    print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
+    print("==========================================================")
+
+    voltars = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+
+    
+
 
 def atualizar():
 
