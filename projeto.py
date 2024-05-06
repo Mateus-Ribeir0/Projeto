@@ -65,9 +65,36 @@ def atualizar():
     return 'teste3'
 
 def excluir():
+    os.system('cls')
+    
+    file_path = 'Repositorio_de_receitas.txt'
+    
+    print("   Exclusão de receitas   ")
+    print("==========================")
+    
+    receita_excluir = input("Digite o nome da receita que deseja excluir: ").strip().lower()
+
+    with open(file_path, 'r', encoding='utf8') as file:
+        todas_as_linhas = file.readlines()
+    
+    receitas_da_lista = [linha.split(' - ')[0].strip().lower() for linha in todas_as_linhas if linha.strip()]
+    
+    if receita_excluir not in receitas_da_lista:
+        print(f"Receita '{receita_excluir}' não encontrada.")
+        return
+    
+    linhas_final = [
+        linha for linha in todas_as_linhas 
+        if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir
+    ]
+    
+    with open(file_path, 'w', encoding='utf8') as file:
+        file.writelines(linhas_final)
+    
+    print(f"Receita '{receita_excluir}' excluída com sucesso.")
 
 
-    return 'teste4'
+
 
 def filtragem():
     os.system('cls')
