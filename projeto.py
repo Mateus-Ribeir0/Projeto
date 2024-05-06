@@ -3,17 +3,17 @@ import time
 os.system('cls')
 
 def menu_interativo(acao):
-    if acao == 'C':
+    if acao == 1:
         return cadastar_receita()
-    elif acao == 'V':
+    elif acao == 2:
         return visualizar()
-    elif acao == 'R':
+    elif acao == 3:
         return atualizar()
-    elif acao == 'E':
+    elif acao == 4:
         return excluir()
-    elif acao == 'F':
+    elif acao == 5:
         return filtragem()
-    elif acao == 'S':
+    elif acao == 0:
         return 'PROGRAMA ENCERRADO'
     else:
         return 'Ação inválida'
@@ -23,8 +23,11 @@ def cadastar_receita():
     file = open('Repositorio_de_receitas.txt', 'a', encoding='utf8')
 
     formatador = []
-    print("   Cadastro de receitas   ")
-    print("==========================")
+    titulo = '''
+█▀▀ ▄▀█ █▀▄ ▄▀█ █▀ ▀█▀ █▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
+█▄▄ █▀█ █▄▀ █▀█ ▄█  █  █▀▄ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█
+'''
+    print(titulo)
     nome = str(input("Nome do prato: "))
     formatador.append(nome)
 
@@ -73,11 +76,13 @@ def excluir():
     os.system('cls')
 
     file_path = 'Repositorio_de_receitas.txt'
-
-    os.system('cls')
     
-    print("   Exclusão de receitas   ")
-    print("==========================")
+    titulo = '''
+█▀▀ ▀▄▀ █▀▀ █   █ █ █▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
+██▄ █ █ █▄▄ █▄▄ █▄█ ▄█ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█ ▄█
+'''
+
+    print(titulo)
     
     receita_excluir = input("Digite o nome da receita que deseja excluir: ").strip().lower()
 
@@ -110,10 +115,13 @@ def filtragem():
     file = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
     lista_de_paises = file.readlines()
     file.close()
+    titulo = '''
 
-    print("\t\tFiltragem de receitas   ")
-    print("==========================================================")
+█▀▀ █ █   ▀█▀ █▀█ █▀█   █▀█ █▀█ █▀█   █▀█ ▄▀█ █ █▀
+█▀  █ █▄▄  █  █▀▄ █▄█   █▀▀ █▄█ █▀▄   █▀▀ █▀█ █ ▄█
+'''
 
+    print(titulo)
     paises = []
     i = 1
     for receita in lista_de_paises:  # Filtrando os paises em uma lista
@@ -127,7 +135,7 @@ def filtragem():
             paises.pop()
             continue
     print("==========================================================")
-    pais_filtrato = int(input("País: "))
+    pais_filtrato = int(input("Escolha o país o qual deseja visualizar as receitas: "))
 
     os.system('cls')
 
@@ -160,7 +168,7 @@ def filtragem():
             for k in receita_separada:  # formatando os nomes para uma melhor leitura
                 if '|' in k and len(k) >= 2:
                     nome_separado = k.split('|')
-                    nome_junto = '\n• '.join(nome_separado)
+                    nome_junto = '\n⚬ '.join(nome_separado)
                     receita_escolhida.append(nome_junto)
                 else:
                     receita_escolhida.append(k)
@@ -169,8 +177,8 @@ def filtragem():
 
     print(f"\t\t   Receita {receita_escolhida[0]}")
     print("==========================================================")
-    print(f"Ingredientes:\n\n• {receita_escolhida[2]}\n")
-    print(f"Modo de preparo:\n\n• {receita_escolhida[3]}")
+    print(f"Ingredientes:\n\n⚬ {receita_escolhida[2]}\n")
+    print(f"Modo de preparo:\n\n☛  {receita_escolhida[3]}")
     print("==========================================================")
 
     voltar = str(input("Aperte qualquer tecla para voltar: "))
@@ -180,18 +188,28 @@ def filtragem():
 
 while True:
     os.system('cls')
-    print("======{ Menu de receitas }======\n")
-    print("C - Cadastrar receitas")
-    print("V - Visualizar receitas ")
-    print("A - Atualizar receitas")
-    print("E - Excluir receita")
-    print("F - Filtragem por País")
-    print("S - Sair do programa")
-    acao = str(input("\nAção: ").upper())
+    titulo = '''
+
+███╗░░░███╗███████╗███╗░░██╗██╗░░░██╗  ██████╗░██████╗░██╗███╗░░██╗░█████╗░██╗██████╗░░█████╗░██╗░░░░░
+████╗░████║██╔════╝████╗░██║██║░░░██║  ██╔══██╗██╔══██╗██║████╗░██║██╔══██╗██║██╔══██╗██╔══██╗██║░░░░░
+██╔████╔██║█████╗░░██╔██╗██║██║░░░██║  ██████╔╝██████╔╝██║██╔██╗██║██║░░╚═╝██║██████╔╝███████║██║░░░░░
+██║╚██╔╝██║██╔══╝░░██║╚████║██║░░░██║  ██╔═══╝░██╔══██╗██║██║╚████║██║░░██╗██║██╔═══╝░██╔══██║██║░░░░░
+██║░╚═╝░██║███████╗██║░╚███║╚██████╔╝  ██║░░░░░██║░░██║██║██║░╚███║╚█████╔╝██║██║░░░░░██║░░██║███████╗
+╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░╚═════╝░  ╚═╝░░░░░╚═╝░░╚═╝╚═╝╚═╝░░╚══╝░╚════╝░╚═╝╚═╝░░░░░╚═╝░░╚═╝╚══════╝
+'''
+    print(f"{titulo}\n")
+
+    print("1 - Cadastrar receitas")
+    print("2 - Visualizar receitas ")
+    print("3 - Atualizar receitas")
+    print("4 - Excluir receita")
+    print("5 - Filtragem por País")
+    print("0 - Sair do programa")
+    acao = int(input("\nDigite qual ação deseja realizar: "))
 
     print(menu_interativo(acao)) # roda/printa a função escolhida
 
-    if acao == 'S':
+    if acao == 0:
         break
     
 #=========================================#
