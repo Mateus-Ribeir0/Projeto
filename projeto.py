@@ -22,38 +22,38 @@ def cadastar_receita():
     os.system('cls')
     file = open('Repositorio_de_receitas.txt', 'a', encoding='utf8')
 
-    formatador = []
+    lista_de_cadastro = []
     titulo = '''
 █▀▀ ▄▀█ █▀▄ ▄▀█ █▀ ▀█▀ █▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 █▄▄ █▀█ █▄▀ █▀█ ▄█  █  █▀▄ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█
 '''
     print(titulo)
     nome = str(input("Nome do prato: "))
-    formatador.append(nome)
+    lista_de_cadastro.append(nome)
 
     print("==========================")
-    pais = str(input("País de origem: ")).capitalize()
+    pais = str(input("País de origem: "))
     formatador.append(pais)
 
     print("==========================")
-    i = []
-    quant_i = int(input("Quantidade de ingredientes: "))
-    for j in range (quant_i):
-        ingrediente = str(input(f"Digite o {j+1}° Ingrediente: ").strip())
-        i.append(ingrediente)
-    i1 = "|".join(i)
-    formatador.append(i1)
+    receita_de_ingredientes = []
+    quant_de_ingredientes = int(input("Quantidade de ingredientes: "))
+    for posicao in range (quant_de_ingredientes):
+        ingrediente = str(input(f"Digite o {posicao+1}° Ingrediente: ").strip())
+        receita_de_ingredientes.append(ingrediente)
+    juncao_ingredientes = "|".join(receita_de_ingredientes)
+    lista_de_cadastro.append(juncao_ingredientes)
 
     print("==========================")
-    m = []
-    quant_m = int(input("Quantidade de passos: "))
-    for i in range (quant_m):
-        modo = str(input(f"Digite o {i+1}° passo: ").strip())
-        m.append(modo)
-    m1 = "|".join(m)
-    formatador.append(m1)
+    passos = []
+    quant_de_passos = int(input("Quantidade de passos: "))
+    for posicao in range (quant_de_passos):
+        modo = str(input(f"Digite o {posicao+1}° passo: ").strip())
+        passos.append(modo)
+    juncao_passos = "|".join(passos)
+    lista_de_cadastro.append(juncao_passos)
 
-    nova_receita = '\n' + ' - '.join(formatador) + ' - False'
+    nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False'
     file.write(nova_receita)
 
     file.close()
