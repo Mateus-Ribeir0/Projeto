@@ -158,7 +158,7 @@ def filtragem():
             receita_separada = receita.split(' - ')
 
             for k in receita_separada:  # formatando os nomes para uma melhor leitura
-                if '|' in k:
+                if '|' in k and len(k) >= 2:
                     nome_separado = k.split('|')
                     nome_junto = '\n• '.join(nome_separado)
                     receita_escolhida.append(nome_junto)
