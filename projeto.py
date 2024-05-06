@@ -49,7 +49,7 @@ def cadastar_receita():
     m1 = "|".join(m)
     formatador.append(m1)
 
-    nova_receita = '\n' + ' - '.join(formatador) + '-False'
+    nova_receita = '\n' + ' - '.join(formatador) + ' - False'
     file.write(nova_receita)
 
     file.close()
@@ -70,9 +70,76 @@ def excluir():
     return 'teste4'
 
 def filtragem():
+    os.system('cls')
 
+    file = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
+    lista_de_paises = file.readlines()
+    file.close()
 
-    return 'teste5'
+    print("\t\tFiltragem de receitas   ")
+    print("==========================================================")
+
+    paises = []
+    i = 1
+    for receita in lista_de_paises:  # Filtrando os paises em uma lista
+        linha = receita.split(' - ')
+        paises.append(linha[1])
+
+        if paises.count(linha[1]) == 1:
+            print(f"{i} - {linha[1]}")
+            i += 1
+        else:
+            paises.pop()
+            continue
+    print("==========================================================")
+    pais_filtrato = int(input("País: "))
+
+    os.system('cls')
+
+    receitas_filtradas = []
+    for receita in lista_de_paises:  # Separando as receitas do país escolhido em uma lista
+        if paises[pais_filtrato - 1] in receita:
+            receitas_filtradas.append(receita)
+        else:
+            continue
+
+    print(f"\t\tReceitas do(a) {paises[pais_filtrato - 1]}  ")
+    print("==========================================================")
+
+    nomes_das_receitas = []
+    j = 1
+    for receita in receitas_filtradas:  # filtrando os nomes das receitas em uma lista para posterior escolha
+        nome = receita.split(' - ')
+        nomes_das_receitas.append(nome[0])
+
+        print(f"{j} - {nome[0]}")
+        j += 1
+    print("==========================================================")
+    indice_receita_escolhida = int(input("Receita: "))
+
+    receita_escolhida = []
+    for receita in receitas_filtradas:  # adicionando a receita escolhida em uma lista
+        if nomes_das_receitas[indice_receita_escolhida - 1] in receita:
+            receita_separada = receita.split(' - ')
+
+            for k in receita_separada:  # formatando os nomes para uma melhor leitura
+                if '|' in k:
+                    nome_separado = k.split('|')
+                    nome_junto = '\n• '.join(nome_separado)
+                    receita_escolhida.append(nome_junto)
+                else:
+                    receita_escolhida.append(k)
+
+    os.system('cls')
+
+    print(f"\t\t   Receita {receita_escolhida[0]}")
+    print("==========================================================")
+    print(f"Ingredientes:\n\n• {receita_escolhida[2]}\n")
+    print(f"Modo de preparo:\n\n• {receita_escolhida[3]}")
+    print("==========================================================")
+
+    voltar = str(input("Aperte qualquer tecla para voltar: "))
+    
 
 #============ MENU PRINCIPAL ============#
 
