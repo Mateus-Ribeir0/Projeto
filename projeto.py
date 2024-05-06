@@ -32,8 +32,8 @@ def cadastar_receita():
     lista_de_cadastro.append(nome)
 
     print("==========================")
-    pais = str(input("País de origem: "))
-    formatador.append(pais)
+    pais = str(input("País de origem: ")).capitalize()
+    lista_de_cadastro.append(pais)
 
     print("==========================")
     receita_de_ingredientes = []
