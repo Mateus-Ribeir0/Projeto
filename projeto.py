@@ -1,4 +1,5 @@
 import os
+import time
 os.system('cls')
 
 def menu_interativo(acao):
@@ -64,10 +65,16 @@ def atualizar():
 
     return 'teste3'
 
+import os
+import time
+
 def excluir():
+
     os.system('cls')
-    
+
     file_path = 'Repositorio_de_receitas.txt'
+
+    os.system('cls')
     
     print("   Exclusão de receitas   ")
     print("==========================")
@@ -81,8 +88,10 @@ def excluir():
     
     if receita_excluir not in receitas_da_lista:
         print(f"Receita '{receita_excluir}' não encontrada.")
+        time.sleep(2)
         return
     
+
     linhas_final = [
         linha for linha in todas_as_linhas 
         if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir
@@ -92,8 +101,7 @@ def excluir():
         file.writelines(linhas_final)
     
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
-
-
+    time.sleep(2)
 
 
 def filtragem():
