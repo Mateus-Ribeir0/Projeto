@@ -225,7 +225,6 @@ def filtragem():
     lista_de_paises = file.readlines()
     file.close()
     titulo = '''
-
 █▀▀ █ █   ▀█▀ █▀█ █▀█   █▀█ █▀█ █▀█   █▀█ ▄▀█ █ █▀
 █▀  █ █▄▄  █  █▀▄ █▄█   █▀▀ █▄█ █▀▄   █▀▀ █▀█ █ ▄█
 '''
