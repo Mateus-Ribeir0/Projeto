@@ -5,7 +5,7 @@ def menu_interativo(acao):
     if acao == '1':
         return cadastar_receita()
     elif acao == '2':
-        return visualizar()
+        return visualizar_receita()
     elif acao == '3':
         return atualizar()
     elif acao == '4':
@@ -59,40 +59,51 @@ def cadastar_receita():
 
     file.close()
 
-def visualizar():
-    os.system("cls")
-    filevisiualizar=open("Repositorio_de_receitas.txt","r",encoding="utf8")
-    visualizararquivo=filevisiualizar.readlines()
-    filevisiualizar.close()
-    visulização = []
+def obter_receitas():
+    os.system('cls')
+    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+        linhas_arquivo = arquivo.readlines()
     
-    v = 1
-    for visualizção in visualizararquivo:  # Filtrando os paises em uma lista
-        linhas = visualizção.split(' - ')
-        visulização.append(linhas[0])
-        print(f"{v:^2} - {linhas[0]}")
-        v+=1
+    receitas = []
+    for linha in linhas_arquivo:
+        partes = linha.split(' - ')
+        receitas.append(partes[0])
+    
+    return receitas
+
+def selecionar_receita_view(receitas):
+    for i, receita in enumerate(receitas, 1):
+        print(f"{i:^2} - {receita}")
+
     print("==========================================================")
-    numer=int(input("Digite o numero que voce quer ver a receita: "))
+    numero = int(input("Digite o número da receita que você quer ver: "))
+    return receitas[numero - 1]
+def selecionar_receita_edit(receitas):
+    for i, receita in enumerate(receitas, 1):
+        print(f"{i:^2} - {receita}")
 
-     
+    print("==========================================================")
+    numero = int(input("Digite o número da receita que você quer editar: "))
+    return receitas[numero - 1]
 
+def exibir_receita(receita):
     receitas_escolhida = []
     receitas_escolhida_passos = []
-    for receitas in visualizararquivo:  # adicionando a receita escolhida em uma lista
-        if visulização[numer - 1] in receitas:
-            receitas_separada = receitas.split(' - ')
 
-            for ka in receitas_separada:  # formatando os nomes para uma melhor leitura
-                if '|' in ka and len(ka) >= 2:
-                    nomes_separado = ka.split('|')
-                    nomes_junto = '\n⚬ '.join(nomes_separado)
-                    nomes_junto_passos = '\n☛ '.join(nomes_separado)
-                    receitas_escolhida.append(nomes_junto)
-                    receitas_escolhida_passos.append(nomes_junto_passos)
-                else:
-                    receitas_escolhida.append(ka)
-                    receitas_escolhida_passos.append(ka)
+    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+        for linha in arquivo:
+            if receita in linha:
+                partes = linha.split(' - ')
+                for parte in partes:
+                    if '|' in parte and len(parte) >= 2:
+                        nomes_separados = parte.split('|')
+                        nomes_juntos = '\n⚬ '.join(nomes_separados)
+                        nomes_juntos_passos = '\n☛ '.join(nomes_separados)
+                        receitas_escolhida.append(nomes_juntos)
+                        receitas_escolhida_passos.append(nomes_juntos_passos)
+                    else:
+                        receitas_escolhida.append(parte)
+                        receitas_escolhida_passos.append(parte)
 
     os.system('cls')
 
@@ -102,12 +113,46 @@ def visualizar():
     print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
     print("==========================================================")
 
-    voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+
+def visualizar_receita():
+    receitas = obter_receitas()
+    receita_selecionada = selecionar_receita_view(receitas)
+    exibir_receita(receita_selecionada)
+    input("Pressione Enter para voltar ao menu principal: ")
+
+def edit_nome_receita(receita_selecionada):
+    os.system('cls')
+    novo_nome = input("Digite o novo nome para a receita: ")
+
+    with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
+        linhas_arquivo = arquivo.readlines()
+        arquivo.seek(0)
+        for linha in linhas_arquivo:
+            if receita_selecionada in linha:
+                nova_linha = linha.replace(receita_selecionada, novo_nome)
+                arquivo.write(nova_linha)
+            else:
+                arquivo.write(linha)
+        arquivo.truncate()
+    
+    print("Nome da receita atualizado com sucesso!")
+
+def edit_ingredientes_receita():
+    'teste'
+
+def edit_preparo_receita():
+    'teste'
 
 def atualizar():
+    receitas = obter_receitas()
+    receita_selecionada = selecionar_receita_edit(receitas)
+    exibir_receita(receita_selecionada)
+    
+    opcao_escolhida_edit = int(input("Digite:\n\n(1) Para editar o nome da receita.\n(2) Para editar os ingredientes.\n(3) Para editar o modo de preparo.\n\n"))
 
+    if opcao_escolhida_edit == 1:
+        edit_nome_receita(receita_selecionada)
 
-    return 'teste3'
 
 def excluir():
 
