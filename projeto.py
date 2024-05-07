@@ -76,6 +76,7 @@ titulo1='''
 ─█▄█─ ▀█▀ ▀▀█ █──█ █▄▄█ █── ▀█▀ ▄▀─ █▄▄█ █── █▄▄█ █──█ 　 █──█ █▀▀ 　 █▄▄▀ █▀▀ █── █▀▀ ▀█▀ ──█── █▄▄█ 
 ──▀── ▀▀▀ ▀▀▀ ─▀▀▀ ▀──▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀──▀ ▀▀▀ ▀──▀ ▀▀▀▀ 　 ▀▀▀─ ▀▀▀ 　 ▀─▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ──▀── ▀──▀
 '''
+
 def selecionar_receita_view(receitas):
     print(titulo1)
     for i, receita in enumerate(receitas, 1):
@@ -93,7 +94,6 @@ def selecionar_receita_view(receitas):
     
     numero = int(numero_str)
     return receitas[numero - 1]
-
 
 def selecionar_receita_edit(receitas):
     for i, receita in enumerate(receitas, 1):
@@ -116,7 +116,7 @@ def exibir_receita(receita):
                     if '|' in parte and len(parte) >= 2:
                         nomes_separados = parte.split('|')
                         nomes_juntos = '\n⚬ '.join(nomes_separados)
-                        nomes_juntos_passos = '\n☛ '.join(nomes_separados)
+                        nomes_juntos_passos = '\n☛  '.join(nomes_separados)
                         receitas_escolhida.append(nomes_juntos)
                         receitas_escolhida_passos.append(nomes_juntos_passos)
                     else:
@@ -132,7 +132,6 @@ def exibir_receita(receita):
     print(f"Ingredientes:\n\n⚬ {receitas_escolhida[2]}\n")
     print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
     print("==========================================================")
-
 
 def visualizar_receita():
     receitas = obter_receitas()
@@ -186,7 +185,6 @@ def atualizar():
     else:
         print("Opção invalida.")
 
-
 def excluir():
 
     os.system('cls')
@@ -230,12 +228,14 @@ def filtragem():
     file = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
     lista_de_paises = file.readlines()
     file.close()
+
     titulo = '''
 █▀▀ █ █   ▀█▀ █▀█ █▀█   █▀█ █▀█ █▀█   █▀█ ▄▀█ █ █▀
 █▀  █ █▄▄  █  █▀▄ █▄█   █▀▀ █▄█ █▀▄   █▀▀ █▀█ █ ▄█
 '''
 
     print(titulo)
+
     paises = []
     i = 1
     for receita in lista_de_paises:  # Filtrando os paises em uma lista
@@ -255,10 +255,9 @@ def filtragem():
 
     receitas_filtradas = []
     for receita in lista_de_paises:  # Separando as receitas do país escolhido em uma lista
-        if paises[pais_filtrato - 1] in receita:
+        pais_escolhido = receita.split(' - ')
+        if paises[pais_filtrato - 1] == pais_escolhido[1]:
             receitas_filtradas.append(receita)
-        else:
-            continue
 
     print(f"\t\tReceitas do(a) {paises[pais_filtrato - 1]}  ")
     print("==========================================================")
@@ -284,7 +283,7 @@ def filtragem():
                 if '|' in k and len(k) >= 2:
                     nome_separado = k.split('|')
                     nome_junto = '\n⚬ '.join(nome_separado)
-                    nome_junto_passos = '\n☛ '.join(nome_separado)
+                    nome_junto_passos = '\n☛  '.join(nome_separado)
                     receita_escolhida.append(nome_junto)
                     receita_escolhida_passos.append(nome_junto_passos)
                 else:
@@ -293,7 +292,7 @@ def filtragem():
 
     os.system('cls')
 
-    print(f"\t\t   ♨  Receita {receita_escolhida[0]}  ♨")
+    print(f"\t ♨  Receita {receita_escolhida[0]}  ♨")
     print("==========================================================")
     print(f"Ingredientes:\n\n⚬ {receita_escolhida[2]}\n")
     print(f"Modo de preparo:\n\n☛  {receita_escolhida_passos[3]}")
