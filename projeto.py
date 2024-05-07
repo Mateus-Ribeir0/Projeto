@@ -71,7 +71,13 @@ def obter_receitas():
     
     return receitas
 
+titulo1='''
+▀█─█▀ ─▀─ █▀▀ █──█ █▀▀█ █── ─▀─ ▀▀█ █▀▀█ █▀▀ █▀▀█ █▀▀█ 　 █▀▀▄ █▀▀ 　 █▀▀█ █▀▀ █▀▀ █▀▀ ─▀─ ▀▀█▀▀ █▀▀█ 
+─█▄█─ ▀█▀ ▀▀█ █──█ █▄▄█ █── ▀█▀ ▄▀─ █▄▄█ █── █▄▄█ █──█ 　 █──█ █▀▀ 　 █▄▄▀ █▀▀ █── █▀▀ ▀█▀ ──█── █▄▄█ 
+──▀── ▀▀▀ ▀▀▀ ─▀▀▀ ▀──▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀──▀ ▀▀▀ ▀──▀ ▀▀▀▀ 　 ▀▀▀─ ▀▀▀ 　 ▀─▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ──▀── ▀──▀
+'''
 def selecionar_receita_view(receitas):
+    print(titulo1)
     for i, receita in enumerate(receitas, 1):
         print(f"{i:^2} - {receita}")
 
