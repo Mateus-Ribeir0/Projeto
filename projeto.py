@@ -1,22 +1,21 @@
 import os
 import time
-os.system('cls')
 
 def menu_interativo(acao):
-    if acao == 1:
+    if acao == '1':
         return cadastar_receita()
-    elif acao == 2:
+    elif acao == '2':
         return visualizar()
-    elif acao == 3:
+    elif acao == '3':
         return atualizar()
-    elif acao == 4:
+    elif acao == '4':
         return excluir()
-    elif acao == 5:
+    elif acao == '5':
         return filtragem()
-    elif acao == 0:
-        return 'PROGRAMA ENCERRADO'
+    elif acao == '0':
+        return print('===================\nPROGRAMA ENCERRADO\n===================')
     else:
-        return 'Ação inválida'
+        return print('Ação inválida')
             
 def cadastar_receita():
     os.system('cls')
@@ -38,15 +37,17 @@ def cadastar_receita():
     print("==========================")
     receita_de_ingredientes = []
     quant_de_ingredientes = int(input("Quantidade de ingredientes: "))
+    print("==========================")
     for posicao in range (quant_de_ingredientes):
         ingrediente = str(input(f"Digite o {posicao+1}° Ingrediente: ").strip())
         receita_de_ingredientes.append(ingrediente)
-    juncao_ingredientes = "|".join(receita_de_ingredientes)
+    juncao_ingredientes = " | ".join(receita_de_ingredientes)
     lista_de_cadastro.append(juncao_ingredientes)
 
     print("==========================")
     passos = []
     quant_de_passos = int(input("Quantidade de passos: "))
+    print("==========================")
     for posicao in range (quant_de_passos):
         modo = str(input(f"Digite o {posicao+1}° passo: ").strip())
         passos.append(modo)
@@ -69,10 +70,10 @@ def visualizar():
     for visualizção in visualizararquivo:  # Filtrando os paises em uma lista
         linhas = visualizção.split(' - ')
         visulização.append(linhas[0])
-        print(f"{v} - {linhas[0]}")
+        print(f"{v:^2} - {linhas[0]}")
         v+=1
     print("==========================================================")
-    numer=int(input("Digite o numero que voce quer ver a receita"))
+    numer=int(input("Digite o numero que voce quer ver a receita: "))
 
      
 
@@ -101,18 +102,12 @@ def visualizar():
     print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
     print("==========================================================")
 
-    voltars = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
-
-    
-
+    voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
 
 def atualizar():
 
 
     return 'teste3'
-
-import os
-import time
 
 def excluir():
 
@@ -150,7 +145,6 @@ def excluir():
     
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
     time.sleep(2)
-
 
 def filtragem():
     os.system('cls')
@@ -231,8 +225,7 @@ def filtragem():
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
     
 
-#============ MENU PRINCIPAL ============#
-
+#==================================  MENU PRINCIPAL  ==================================================#
 while True:
     os.system('cls')
     titulo = '''
@@ -252,11 +245,13 @@ while True:
     print("4 - Excluir receita")
     print("5 - Filtragem por País")
     print("0 - Sair do programa")
-    acao = int(input("\nDigite qual ação deseja realizar: "))
+    acao = str(input("\nDigite qual ação deseja realizar: "))
 
-    print(menu_interativo(acao)) # roda/printa a função escolhida
+    menu_interativo(acao) # roda/printa a função escolhida
 
-    if acao == 0:
+    if acao == '0':
         break
+    else: 
+        continue
     
-#=========================================#
+#======================================================================================================#
