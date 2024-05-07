@@ -97,6 +97,7 @@ def selecionar_receita_edit(receitas):
     return receitas[numero - 1]
 
 def exibir_receita(receita):
+    os.system('cls')
     receitas_escolhida = []
     receitas_escolhida_passos = []
 
