@@ -76,8 +76,18 @@ def selecionar_receita_view(receitas):
         print(f"{i:^2} - {receita}")
 
     print("==========================================================")
-    numero = int(input("Digite o número da receita que você quer ver: "))
+    numero_str = input("Digite o número da receita que você quer ver: ")
+    
+    if not numero_str.strip():
+        os.system('cls')
+        print("Código deu erro. Nenhum número foi fornecido.")
+        time.sleep(2)
+        return selecionar_receita_view(receitas)
+    
+    numero = int(numero_str)
     return receitas[numero - 1]
+
+
 def selecionar_receita_edit(receitas):
     for i, receita in enumerate(receitas, 1):
         print(f"{i:^2} - {receita}")
@@ -104,6 +114,8 @@ def exibir_receita(receita):
                     else:
                         receitas_escolhida.append(parte)
                         receitas_escolhida_passos.append(parte)
+                    
+
 
     os.system('cls')
 
