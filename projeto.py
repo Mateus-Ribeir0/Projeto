@@ -136,6 +136,10 @@ def edit_nome_receita(receita_selecionada):
     os.system('cls')
     novo_nome = input("Digite o novo nome para a receita: ")
 
+    if novo_nome =="":
+        print("Nome inválido! Digite um novo nome.")
+        time.sleep(1)
+
     with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
         linhas_arquivo = arquivo.readlines()
         arquivo.seek(0)
@@ -164,6 +168,12 @@ def atualizar():
 
     if opcao_escolhida_edit == 1:
         edit_nome_receita(receita_selecionada)
+    elif opcao_escolhida_edit == 2:
+        edit_ingredientes_receita()
+    elif opcao_escolhida_edit == 3:
+        edit_preparo_receita()
+    else:
+        print("Opção invalida.")
 
 
 def excluir():
