@@ -82,6 +82,7 @@ def selecionar_receita_view(receitas):
         os.system('cls')
         print("Código deu erro. Nenhum número foi fornecido.")
         time.sleep(2)
+        os.system('cls')
         return selecionar_receita_view(receitas)
     
     numero = int(numero_str)
