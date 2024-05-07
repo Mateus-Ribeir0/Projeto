@@ -137,9 +137,12 @@ def edit_nome_receita(receita_selecionada):
     os.system('cls')
     novo_nome = input("Digite o novo nome para a receita: ")
 
-    if novo_nome =="":
-        print("Nome inválido! Digite um novo nome.")
-        time.sleep(1)
+    if not novo_nome.strip():
+        os.system('cls')
+        print("Nome inválido, digite um novo.")
+        time.sleep(2)
+        return edit_nome_receita(receita_selecionada)
+    
 
     with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
         linhas_arquivo = arquivo.readlines()
