@@ -13,7 +13,21 @@ def menu_interativo(acao):
     elif acao == '5':
         return filtragem()
     elif acao == '0':
-        return print('===================\nPROGRAMA ENCERRADO\n===================')
+        os.system('cls')
+        return print('''
+██████╗░██████╗░░█████╗░░██████╗░██████╗░░█████╗░███╗░░░███╗░█████╗░
+██╔══██╗██╔══██╗██╔══██╗██╔════╝░██╔══██╗██╔══██╗████╗░████║██╔══██╗
+██████╔╝██████╔╝██║░░██║██║░░██╗░██████╔╝███████║██╔████╔██║███████║
+██╔═══╝░██╔══██╗██║░░██║██║░░╚██╗██╔══██╗██╔══██║██║╚██╔╝██║██╔══██║
+██║░░░░░██║░░██║╚█████╔╝╚██████╔╝██║░░██║██║░░██║██║░╚═╝░██║██║░░██║
+╚═╝░░░░░╚═╝░░╚═╝░╚════╝░░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░░░░╚═╝╚═╝░░╚═╝
+
+███████╗███╗░░██╗░█████╗░███████╗██████╗░██████╗░░█████╗░██████╗░░█████╗░
+██╔════╝████╗░██║██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+█████╗░░██╔██╗██║██║░░╚═╝█████╗░░██████╔╝██████╔╝███████║██║░░██║██║░░██║
+██╔══╝░░██║╚████║██║░░██╗██╔══╝░░██╔══██╗██╔══██╗██╔══██║██║░░██║██║░░██║
+███████╗██║░╚███║╚█████╔╝███████╗██║░░██║██║░░██║██║░░██║██████╔╝╚█████╔╝
+╚══════╝╚═╝░░╚══╝░╚════╝░╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░░╚════╝░''')
     else:
         return print('Ação inválida')
             
@@ -37,11 +51,11 @@ def cadastar_receita():
     print("==========================")
     receita_de_ingredientes = []
     quant_de_ingredientes = int(input("Quantidade de ingredientes: "))
-    print("==========================")
+
     for posicao in range (quant_de_ingredientes):
-        ingrediente = str(input(f"Digite o {posicao+1}° Ingrediente: ").strip())
+        ingrediente = str(input(f"Digite o {posicao+1}° Ingrediente: ").strip().capitalize())
         receita_de_ingredientes.append(ingrediente)
-    juncao_ingredientes = " | ".join(receita_de_ingredientes)
+    juncao_ingredientes = "|".join(receita_de_ingredientes)
     lista_de_cadastro.append(juncao_ingredientes)
 
     print("==========================")
@@ -49,7 +63,7 @@ def cadastar_receita():
     quant_de_passos = int(input("Quantidade de passos: "))
     print("==========================")
     for posicao in range (quant_de_passos):
-        modo = str(input(f"Digite o {posicao+1}° passo: ").strip())
+        modo = str(input(f"Digite o {posicao+1}° passo: ").strip().capitalize())
         passos.append(modo)
     juncao_passos = "|".join(passos)
     lista_de_cadastro.append(juncao_passos)
