@@ -180,8 +180,41 @@ def edit_nome_receita(receita_selecionada):
 def edit_ingredientes_receita():
     'teste'
 
-def edit_preparo_receita():
-    'teste'
+def edit_preparo_receita(receita_selecionada):
+    os.system('cls')  
+    lista_preparo = []
+    qntd_de_preparo = int(input("Digite a quantidade de novos passos: "))
+    print("====================================")
+    
+    for posicao in range(qntd_de_preparo):
+        novo_modo_preparo = str(input(f"Digite o {posicao+1}° passo: ")).strip().capitalize()
+        lista_preparo.append(novo_modo_preparo)
+
+    if not lista_preparo[-1].strip():
+        os.system('cls')  
+        print("Passo inválido, digite novamente.")
+        time.sleep(2)
+        return edit_preparo_receita(receita_selecionada)
+
+
+    novo_preparo = '|'.join(lista_preparo)
+
+
+    with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
+        linhas_arquivo = arquivo.readlines()
+        arquivo.seek(0)
+        
+        for linha in linhas_arquivo:
+            if receita_selecionada in linha:
+                partes = linha.split(' - ', 3)
+                nova_linha = partes[0] + ' - ' + partes[1] + ' - ' + partes[2] + ' - '  + novo_preparo + ' - ' + ' False' 
+                arquivo.write(nova_linha)
+            else:
+                arquivo.write(linha)
+        
+        arquivo.truncate()
+
+    print("Modo de preparo das receitas atualizado com sucesso!") 
 
 def atualizar():
     receitas = obter_receitas()
@@ -193,9 +226,9 @@ def atualizar():
     if opcao_escolhida_edit == 1:
         edit_nome_receita(receita_selecionada)
     elif opcao_escolhida_edit == 2:
-        edit_ingredientes_receita()
+        edit_ingredientes_receita(receita_selecionada)
     elif opcao_escolhida_edit == 3:
-        edit_preparo_receita()
+        edit_preparo_receita(receita_selecionada)
     else:
         print("Opção invalida.")
 
