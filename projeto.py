@@ -12,6 +12,8 @@ def menu_interativo(acao):
         return excluir()
     elif acao == '5':
         return filtragem()
+    elif acao == '6':
+        return filtragemFavoritos()
     elif acao == '0':
         os.system('cls')
         return print('''
@@ -269,6 +271,36 @@ def excluir():
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
     time.sleep(2)
 
+def filtragemFavoritos():
+    os.system('cls')
+
+    file = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
+    lista_de_receitas = file.readlines()
+    file.close()
+
+    titulo = "Favoritos"
+
+    print(titulo)
+
+    favoritos = []
+    i = 1
+    for receita in lista_de_receitas:
+        linha = receita.split(' - ')
+        if linha[4].strip() == 'True':
+            print(f"{i} - {linha[0]}")
+            i += 1
+            favoritos.append(linha)
+
+    print("==========================================================")
+
+    os.system('cls')
+
+    for item in favoritos:
+        print(f"⚬ {item[0]}")
+
+    input()
+
+
 def filtragem():
     os.system('cls')
 
@@ -367,6 +399,7 @@ while True:
     print("3 - Atualizar receitas")
     print("4 - Excluir receita")
     print("5 - Filtragem por País")
+    print("6 - Lista de favoritos")
     print("0 - Sair do programa")
     acao = str(input("\nDigite qual ação deseja realizar: "))
 
