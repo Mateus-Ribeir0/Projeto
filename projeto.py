@@ -1,5 +1,6 @@
 import os
 import time
+import random
 
 def menu_interativo(acao):
     if acao == '1':
@@ -14,6 +15,8 @@ def menu_interativo(acao):
         return filtragem()
     elif acao == '6':
         return filtragemFavoritos()
+    elif acao == '7':
+        return func_randomicas()
     elif acao == '0':
         os.system('cls')
         return print('''
@@ -178,9 +181,47 @@ def edit_nome_receita(receita_selecionada):
         arquivo.truncate()
     
     print("Nome da receita atualizado com sucesso!")
+    print("===========================================")
+    input("Pressione Enter para voltar ao menu principal")
 
-def edit_ingredientes_receita():
-    'teste'
+def edit_ingredientes_receita(receita_selecionada):
+    os.system('cls')
+    ingredientes=[]
+    nmrdeingredientes= int(input("Digite a nova quantidade de ingredientes"))
+    print("===============================================")
+
+    for numeracao in range(nmrdeingredientes):
+        novos_ingredientes= str(input(f"Diga o {numeracao+1} ingrediente: ")).strip()
+        novos_ingredientes1=novos_ingredientes.capitalize()
+        ingredientes.append(novos_ingredientes1)
+    if not ingredientes[-1].strip():
+        os.system('cls')    
+        print("ingrediente iválido, digite novamente")
+        time.sleep(2)
+        return edit_ingredientes_receita(receita_selecionada)
+   
+    leituraarquivo='|'.join(ingredientes)
+
+    with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
+        partedoarquivo= nmringredientes.readlines()
+        nmringredientes.seek(0)
+
+        for linha in partedoarquivo:
+            if receita_selecionada in linha:
+                partes = linha.split(' - ',4)
+                linha_nova= partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - '+ 'False'
+                nmringredientes.write(linha_nova)
+            else:
+             nmringredientes.write(linha)    
+        nmringredientes.truncate()
+    
+    print("\nIngredientes Alterados com Sucesso!\n\n")
+    print("======================================================") 
+    input("Pressione Enter Para Voltar ao menu principal")
+  
+
+
+
 
 def edit_preparo_receita(receita_selecionada):
     os.system('cls')  
@@ -215,8 +256,10 @@ def edit_preparo_receita(receita_selecionada):
                 arquivo.write(linha)
         
         arquivo.truncate()
-
-    print("Modo de preparo das receitas atualizado com sucesso!") 
+        
+    print("\nModo de preparo das receitas atualizado com sucesso!\n\n")
+    print("======================================================") 
+    input("Pressione Enter Para Voltar ao menu principal")
 
 def atualizar():
     receitas = obter_receitas()
@@ -378,6 +421,23 @@ def filtragem():
     print("==========================================================")
 
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+
+def func_randomicas():
+    os.system('cls')
+    arquivoR = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
+    lista_de_recitas = arquivoR.readlines()
+    arquivoR.close()
+    nome_receitas=[]
+    for nome_r in lista_de_recitas:  # Filtrando os paises em uma lista
+        linha = nome_r.split(' - ')
+        nome_receitas.append(linha[0])
+    print("Sua função randomica é")
+    print(random.choice(nome_receitas))
+    print("===================================")
+    input("Pressione enter para voltar ao menu principal: ")
+    
+
+
     
 
 #==================================  MENU PRINCIPAL  ==================================================#
