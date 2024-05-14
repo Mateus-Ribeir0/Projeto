@@ -14,7 +14,7 @@ def menu_interativo(acao):
     elif acao == '5':
         return filtragem()
     elif acao == '6':
-        return filtragemFavoritos()
+        return MenuFavoritos()
     elif acao == '7':
         return func_randomicas()
     elif acao == '0':
@@ -314,7 +314,115 @@ def excluir():
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
     time.sleep(2)
 
-def filtragemFavoritos():
+def MenuFavoritos():
+    os.system('cls')
+    print("1 - Lista de favoritos")
+    print("2 - Adicionar receita a favoritos")
+    print("3 - Excluir receita de favoritos")
+    print("0 - Voltar ao menu principal")
+    escolha = str(input("\nDigite qual ação deseja realizar: "))
+
+    if escolha == '1':
+        return ListaFavoritos()
+    elif escolha == '2':
+        return AdicionarFavoritos()
+    elif escolha == '3':
+        return ExcluirFavoritos()
+    elif escolha == '0':
+        return 
+    else:
+        print("\nOpção Inválida! Digite outra opção.")
+        time.sleep(2)
+        return
+    
+def ExcluirFavoritos():
+    os.system('cls')
+    titulo = "Excluir dos Favoritos"
+    print(titulo)
+
+    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+        linhas_arquivo = arquivo.readlines()
+    
+    favoritos = []
+    for receita in linhas_arquivo:
+        linha = receita.strip().split(' - ')
+        if len(linha) >= 5 and linha[4].strip() == 'True':
+            favoritos.append(linha)
+
+    if not favoritos:
+        print("Não há receitas marcadas como favoritas.")
+        input("\nPressione Enter para voltar ao menu principal: ")
+        return
+    
+    for i, receita in enumerate(favoritos, 1):
+        print(f"{i} - {receita[0]}")
+
+    print("==========================================================")
+
+    escolhido = input("Digite o número da receita que deseja excluir dos favoritos: ")
+    
+    if not escolhido.strip() or not escolhido.isdigit() or int(escolhido) < 1 or int(escolhido) > len(favoritos):
+        print("Escolha inválida.")
+        input("\nPressione Enter para voltar ao menu principal: ")
+        return
+    
+    numero = int(escolhido)
+
+    linha_escolhida = favoritos[numero - 1]
+    linha_escolhida[-1] = 'False'
+
+    with open("Repositorio_de_receitas.txt", "w", encoding="utf8") as arquivo:
+        for linha in linhas_arquivo:
+            if linha.strip().split(' - ')[0] == linha_escolhida[0]:
+                arquivo.write(' - '.join(linha_escolhida) + '\n')
+            else:
+                arquivo.write(linha)
+
+    input("\nPressione Enter para voltar ao menu principal: ")
+
+def AdicionarFavoritos():
+    os.system('cls')
+    titulo = "Adicionar a Favoritos"
+    print(titulo)
+
+    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+        linhas_arquivo = arquivo.readlines()
+    
+    receitas = []
+
+    for linha in linhas_arquivo:
+        partes = linha.split(' - ')
+        receitas.append(partes[0])
+
+    listareceitas = obter_receitas()
+    
+    for i, receita in enumerate(receitas, 1):
+        print(f"{i:^2} - {receita}")
+
+    print("==========================================================")
+    escolhido = str(input("Digite a posição da receita que deseja adicionar aos favoritos: "))
+    
+    if not escolhido.strip():
+        os.system('cls')
+        print("Código deu erro. Nenhum número foi fornecido.")
+        time.sleep(2)
+        os.system('cls')
+        return selecionar_receita_view(receitas)
+    
+    numero = int(escolhido)
+
+    linha_escolhida = linhas_arquivo[numero - 1].strip()
+    partes = linha_escolhida.split(' - ')
+    partes[-1] = 'True\n'
+    linhas_arquivo[numero - 1] = ' - '.join(partes) + '\n'
+
+    with open("Repositorio_de_receitas.txt", "w", encoding="utf8") as arquivo:
+        arquivo.writelines(linhas_arquivo)
+
+    return receitas[numero - 1]
+
+
+def ListaFavoritos():
     os.system('cls')
 
     file = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
@@ -322,14 +430,13 @@ def filtragemFavoritos():
     file.close()
 
     titulo = "Favoritos"
-
     print(titulo)
 
     favoritos = []
     i = 1
     for receita in lista_de_receitas:
-        linha = receita.split(' - ')
-        if linha[4].strip() == 'True':
+        linha = receita.strip().split(' - ')
+        if len(linha) >= 5 and linha[4].strip() == 'True':
             print(f"{i} - {linha[0]}")
             i += 1
             favoritos.append(linha)
@@ -341,7 +448,7 @@ def filtragemFavoritos():
     for item in favoritos:
         print(f"⚬ {item[0]}")
 
-    input()
+    input("\nPressione Enter para voltar ao menu principal: ")
 
 
 def filtragem():
@@ -459,7 +566,7 @@ while True:
     print("3 - Atualizar receitas")
     print("4 - Excluir receita")
     print("5 - Filtragem por País")
-    print("6 - Lista de favoritos")
+    print("6 - Favoritos")
     print("0 - Sair do programa")
     acao = str(input("\nDigite qual ação deseja realizar: "))
 
