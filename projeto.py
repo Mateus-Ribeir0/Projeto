@@ -421,33 +421,65 @@ def AdicionarFavoritos():
 
     return receitas[numero - 1]
 
+import os
+
 def ListaFavoritos():
+    
     os.system('cls')
 
     file = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
     lista_de_receitas = file.readlines()
     file.close()
 
-    titulo = "Favoritos"
-    print(titulo)
+    titulo = "teste"
 
-    favoritos = []
-    i = 1
-    for receita in lista_de_receitas:
-        linha = receita.strip().split(' - ')
-        if len(linha) >= 5 and linha[4].strip() == 'True':
-            print(f"{i} - {linha[0]}")
-            i += 1
-            favoritos.append(linha)
+    print(titulo)
+    receitas_e_favoritos = [receita.strip().split(' - ') for receita in lista_de_receitas]
+
+    opcao = input("Digite (F) para visualizar as receitas favoritas e (N) para as que não são favoritas: ").upper()
+
+    if opcao == 'F':
+        favorito_filtrado = True
+    elif opcao == 'N':
+        favorito_filtrado = False
+    else:
+        return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+        
+
+    receitas_filtradas = [receita for receita in receitas_e_favoritos if (receita[4] == 'True') == favorito_filtrado]
 
     print("==========================================================")
+    if favorito_filtrado:
+        print("\t\tReceitas Favoritas")
+    else:
+        print("\t\tReceitas Não Favoritas")
+    print("==========================================================")
 
-    os.system('cls')
 
-    for item in favoritos:
-        print(f"⚬ {item[0]}")
+    nomes_das_receitas = []
+    j = 1
+    for receita in receitas_filtradas:
+        nome = receita[0]
+        nomes_das_receitas.append(nome)
+        print(f"{j} - {nome}")
+        j += 1
 
-    input("\nPressione Enter para voltar ao menu principal: ")
+    print("==========================================================")
+    if j == 1:
+        print("Não há receitas disponíveis.")
+    else:
+        indice_receita_escolhida = int(input("Receita: "))
+        os.system('cls')
+
+        receita_escolhida = receitas_filtradas[indice_receita_escolhida - 1]
+
+        print(f"\t ♨  Receita {receita_escolhida[0]}  ♨")
+        print("==========================================================")
+        print(f"Ingredientes:\n\n⚬ {receita_escolhida[2]}\n")
+        print(f"Modo de preparo:\n\n☛  {receita_escolhida[3]}")
+        print("==========================================================")
+
+    voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
 
 
 def filtragem():
