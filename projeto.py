@@ -413,14 +413,13 @@ def AdicionarFavoritos():
 
     linha_escolhida = linhas_arquivo[numero - 1].strip()
     partes = linha_escolhida.split(' - ')
-    partes[-1] = 'True\n'
+    partes[-1] = 'True'
     linhas_arquivo[numero - 1] = ' - '.join(partes) + '\n'
 
     with open("Repositorio_de_receitas.txt", "w", encoding="utf8") as arquivo:
         arquivo.writelines(linhas_arquivo)
 
     return receitas[numero - 1]
-
 
 def ListaFavoritos():
     os.system('cls')
