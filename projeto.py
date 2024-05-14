@@ -566,6 +566,7 @@ while True:
     print("4 - Excluir receita")
     print("5 - Filtragem por País")
     print("6 - Favoritos")
+    print("7 - Sugestão de Receita Aleatória")
     print("0 - Sair do programa")
     acao = str(input("\nDigite qual ação deseja realizar: "))
 
