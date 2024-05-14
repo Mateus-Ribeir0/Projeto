@@ -316,6 +316,12 @@ def excluir():
 
 def MenuFavoritos():
     os.system('cls')
+    titulo = '''
+
+█▀▄▀█ █▀▀ █▄ █ █ █   █▀▄ █▀▀   █▀▀ ▄▀█ █ █ █▀█ █▀█ █ ▀█▀ █▀█ █▀
+█ ▀ █ ██▄ █ ▀█ █▄█   █▄▀ ██▄   █▀  █▀█ ▀▄▀ █▄█ █▀▄ █  █  █▄█ ▄█\n\n'''
+
+    print(titulo)
     print("1 - Lista de favoritos")
     print("2 - Adicionar receita a favoritos")
     print("3 - Excluir receita de favoritos")
@@ -337,7 +343,9 @@ def MenuFavoritos():
     
 def ExcluirFavoritos():
     os.system('cls')
-    titulo = "Excluir dos Favoritos"
+    titulo = '''
+█▀▀ ▀▄▀ █▀▀ █   █ █ █ █▀█   █▀▄ █▀▀   █▀▀ ▄▀█ █ █ █▀█ █▀█ █ ▀█▀ █▀█ █▀
+██▄ █ █ █▄▄ █▄▄ █▄█ █ █▀▄   █▄▀ ██▄   █▀  █▀█ ▀▄▀ █▄█ █▀▄ █  █  █▄█ ▄█\n\n'''
     print(titulo)
 
     with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
@@ -382,7 +390,9 @@ def ExcluirFavoritos():
 
 def AdicionarFavoritos():
     os.system('cls')
-    titulo = "Adicionar a Favoritos"
+    titulo =  '''
+▄▀█ █▀▄ █ █▀▀ █ █▀█ █▄ █ ▄▀█ █▀█   ▄▀█ █▀█ █▀   █▀▀ ▄▀█ █ █ █▀█ █▀█ █ ▀█▀ █▀█ █▀
+█▀█ █▄▀ █ █▄▄ █ █▄█ █ ▀█ █▀█ █▀▄   █▀█ █▄█ ▄█   █▀  █▀█ ▀▄▀ █▄█ █▀▄ █  █  █▄█ ▄█\n\n'''
     print(titulo)
 
     with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
@@ -431,7 +441,9 @@ def ListaFavoritos():
     lista_de_receitas = file.readlines()
     file.close()
 
-    titulo = "teste"
+    titulo = '''
+█   █ █▀ ▀█▀ ▄▀█   █▀▄ █▀▀   █▀▀ ▄▀█ █ █ █▀█ █▀█ █ ▀█▀ █▀█ █▀
+█▄▄ █ ▄█  █  █▀█   █▄▀ ██▄   █▀  █▀█ ▀▄▀ █▄█ █▀▄ █  █  █▄█ ▄█\n\n'''
 
     print(titulo)
     receitas_e_favoritos = [receita.strip().split(' - ') for receita in lista_de_receitas]
@@ -447,11 +459,14 @@ def ListaFavoritos():
         
 
     receitas_filtradas = [receita for receita in receitas_e_favoritos if (receita[4] == 'True') == favorito_filtrado]
-
+    os.system('cls')
+    print(titulo)
     print("==========================================================")
     if favorito_filtrado:
         print("\t\tReceitas Favoritas")
     else:
+        os.system('cls')
+        print(titulo)
         print("\t\tReceitas Não Favoritas")
     print("==========================================================")
 
@@ -470,14 +485,16 @@ def ListaFavoritos():
     else:
         indice_receita_escolhida = int(input("Receita: "))
         os.system('cls')
+        if indice_receita_escolhida > j:
+            return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+        else:
+            receita_escolhida = receitas_filtradas[indice_receita_escolhida - 1]
 
-        receita_escolhida = receitas_filtradas[indice_receita_escolhida - 1]
-
-        print(f"\t ♨  Receita {receita_escolhida[0]}  ♨")
-        print("==========================================================")
-        print(f"Ingredientes:\n\n⚬ {receita_escolhida[2]}\n")
-        print(f"Modo de preparo:\n\n☛  {receita_escolhida[3]}")
-        print("==========================================================")
+            print(f"\t ♨  Receita {receita_escolhida[0]}  ♨")
+            print("==========================================================")
+            print(f"Ingredientes:\n\n⚬ {'\n⚬ '.join(receita_escolhida[2].split('|'))}\n")
+            print(f"Modo de preparo:\n\n☛  {'\n☛  '.join(receita_escolhida[3].split('|'))}")
+            print("==========================================================")
 
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
 
