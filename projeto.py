@@ -578,17 +578,30 @@ def filtragem():
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
 
 def func_randomicas():
-    os.system('cls')
-    arquivoR = open('Repositorio_de_receitas.txt', 'r', encoding='utf8')
-    lista_de_recitas = arquivoR.readlines()
-    arquivoR.close()
-    nome_receitas=[]
-    for nome_r in lista_de_recitas:  # Filtrando os paises em uma lista
-        linha = nome_r.split(' - ')
-        nome_receitas.append(linha[0])
-    print("Sua função randomica é")
-    print(random.choice(nome_receitas))
-    print("===================================")
+    os.system('cls')  
+    with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
+        receitas = arquivoR.readlines()
+
+    titulo2= '''
+▒█▀▀█ █▀▀ █▀▀ █▀▀ ░▀░ ▀▀█▀▀ █▀▀█ 　 █▀▀█ █░ █▀▀ █▀▀█ ▀▀█▀▀ █▀▀█ █▀▀█ ░▀░ █▀▀█ 
+▒█▄▄▀ █▀▀ █░░ █▀▀ ▀█▀ ░░█░░ █▄▄█ 　 █▄▄█ █░ █▀▀ █▄▄█ ░░█░░ █░░█ █▄▄▀ ▀█▀ █▄▄█ 
+▒█░▒█ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀   ▀   ▀  ▀ 　 █  █ ▀▀ ▀▀▀ ▀  ▀   ▀   ▀▀▀▀ ▀ ▀▀ ▀▀▀ ▀  ▀'''
+    print(titulo2)
+    receita_aleatoria = random.choice(receitas).strip().split(' - ')
+
+    print("\n")
+    print("Nome:", receita_aleatoria[0])
+    print("====================================")
+    print("País:", receita_aleatoria[1])
+    print("====================================")
+    print("Ingredientes:")
+    for ingrediente in receita_aleatoria[2].strip().split('|'):
+        print("-", ingrediente)
+    print("====================================")
+    print("Modo de Preparo:")
+    for passo in receita_aleatoria[3].strip().split('|'):
+        print("-", passo)
+    print("====================================")          
     input("Pressione enter para voltar ao menu principal: ")
     
 
