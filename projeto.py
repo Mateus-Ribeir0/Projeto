@@ -47,36 +47,46 @@ def cadastar_receita():
 '''
     print(titulo)
     nome = str(input("Nome do prato: "))
-    lista_de_cadastro.append(nome)
 
-    print("==========================")
-    pais = str(input("País de origem: ")).capitalize()
-    lista_de_cadastro.append(pais)
+    if len(nome)<3:
+        tratarErroTamanho()
+    else:
 
-    print("==========================")
-    receita_de_ingredientes = []
-    quant_de_ingredientes = int(input("Quantidade de ingredientes: "))
+        lista_de_cadastro.append(nome)
 
-    for posicao in range (quant_de_ingredientes):
-        ingrediente = str(input(f"Digite o {posicao+1}° Ingrediente: ").strip().capitalize())
-        receita_de_ingredientes.append(ingrediente)
-    juncao_ingredientes = "|".join(receita_de_ingredientes)
-    lista_de_cadastro.append(juncao_ingredientes)
+        print("==========================")
+        pais = str(input("País de origem: ")).capitalize()
 
-    print("==========================")
-    passos = []
-    quant_de_passos = int(input("Quantidade de passos: "))
-    print("==========================")
-    for posicao in range (quant_de_passos):
-        modo = str(input(f"Digite o {posicao+1}° passo: ").strip().capitalize())
-        passos.append(modo)
-    juncao_passos = "|".join(passos)
-    lista_de_cadastro.append(juncao_passos)
+        if len(pais)<3:
+            tratarErroTamanho()
+        else:
 
-    nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False'
-    file.write(nova_receita)
+            lista_de_cadastro.append(pais)
 
-    file.close()
+            print("==========================")
+            receita_de_ingredientes = []
+            quant_de_ingredientes = int(input("Quantidade de ingredientes: "))
+
+            for posicao in range (quant_de_ingredientes):
+                ingrediente = str(input(f"Digite o {posicao+1}° Ingrediente: ").strip().capitalize())
+                receita_de_ingredientes.append(ingrediente)
+            juncao_ingredientes = "|".join(receita_de_ingredientes)
+            lista_de_cadastro.append(juncao_ingredientes)
+
+            print("==========================")
+            passos = []
+            quant_de_passos = int(input("Quantidade de passos: "))
+            print("==========================")
+            for posicao in range (quant_de_passos):
+                modo = str(input(f"Digite o {posicao+1}° passo: ").strip().capitalize())
+                passos.append(modo)
+            juncao_passos = "|".join(passos)
+            lista_de_cadastro.append(juncao_passos)
+
+            nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False'
+            file.write(nova_receita)
+
+            file.close()
 
 def obter_receitas():
     os.system('cls')
@@ -204,7 +214,7 @@ def edit_ingredientes_receita(receita_selecionada):
 
     with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
         partedoarquivo= nmringredientes.readlines()
-        nmringredientes.seek(0)
+        nmringredientes.seek(0) 
 
         for linha in partedoarquivo:
             if receita_selecionada in linha:
@@ -433,6 +443,28 @@ def AdicionarFavoritos():
 
 import os
 
+def tratarErroGeral():
+    os.system('cls')
+    print('''
+███████╗██████╗░██████╗░░█████╗░  ██████╗░███████╗████████╗███████╗░█████╗░████████╗░█████╗░██████╗░░█████╗░
+██╔════╝██╔══██╗██╔══██╗██╔══██╗  ██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗
+█████╗░░██████╔╝██████╔╝██║░░██║  ██║░░██║█████╗░░░░░██║░░░█████╗░░██║░░╚═╝░░░██║░░░███████║██║░░██║██║░░██║
+██╔══╝░░██╔══██╗██╔══██╗██║░░██║  ██║░░██║██╔══╝░░░░░██║░░░██╔══╝░░██║░░██╗░░░██║░░░██╔══██║██║░░██║██║░░██║
+███████╗██║░░██║██║░░██║╚█████╔╝  ██████╔╝███████╗░░░██║░░░███████╗╚█████╔╝░░░██║░░░██║░░██║██████╔╝╚█████╔╝
+╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░  ╚═════╝░╚══════╝░░░╚═╝░░░╚══════╝░╚════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═════╝░░╚════╝░\n\n''')
+    return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+
+def tratarErroTamanho():
+    os.system('cls')
+    print('''
+███████╗██████╗░██████╗░░█████╗░  ██████╗░███████╗████████╗███████╗░█████╗░████████╗░█████╗░██████╗░░█████╗░
+██╔════╝██╔══██╗██╔══██╗██╔══██╗  ██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗
+█████╗░░██████╔╝██████╔╝██║░░██║  ██║░░██║█████╗░░░░░██║░░░█████╗░░██║░░╚═╝░░░██║░░░███████║██║░░██║██║░░██║
+██╔══╝░░██╔══██╗██╔══██╗██║░░██║  ██║░░██║██╔══╝░░░░░██║░░░██╔══╝░░██║░░██╗░░░██║░░░██╔══██║██║░░██║██║░░██║
+███████╗██║░░██║██║░░██║╚█████╔╝  ██████╔╝███████╗░░░██║░░░███████╗╚█████╔╝░░░██║░░░██║░░██║██████╔╝╚█████╔╝
+╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░  ╚═════╝░╚══════╝░░░╚═╝░░░╚══════╝░╚════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═════╝░░╚════╝░\n\n''')
+    return str(input("Não é permitido o cadastro de nada com menos de 3 caracteres: "))
+
 def ListaFavoritos():
     
     os.system('cls')
@@ -455,7 +487,8 @@ def ListaFavoritos():
     elif opcao == 'N':
         favorito_filtrado = False
     else:
-        return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+        tratarErroGeral()
+    
         
 
     receitas_filtradas = [receita for receita in receitas_e_favoritos if (receita[4] == 'True') == favorito_filtrado]
