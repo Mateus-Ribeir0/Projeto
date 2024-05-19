@@ -17,6 +17,8 @@ def menu_interativo(acao):
         return MenuFavoritos()
     elif acao == '7':
         return func_randomicas()
+    elif acao== '8':
+        return visualizar_menores()
     elif acao == '0':
         os.system('cls')
         return print('''
@@ -83,7 +85,7 @@ def cadastar_receita():
             juncao_passos = "|".join(passos)
             lista_de_cadastro.append(juncao_passos)
 
-            nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False'
+            nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False' 
             file.write(nova_receita)
 
             file.close()
@@ -636,7 +638,84 @@ def func_randomicas():
         print("-", passo)
     print("====================================")          
     input("Pressione enter para voltar ao menu principal: ")
+def func_extra():
+    os.system('cls')
     
+    with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
+        lista_ingredientes = []
+        lista_de_nomes = []
+        lista_da_receitamenor = []
+        lista_de_nomes_exibicao = []
+        
+        receitas = arquivoR.readlines()
+        for receita in receitas:
+            ingredientes = receita.split(" - ")
+            ingredientess = ingredientes[5].strip()
+            lista_ingredientes.append(ingredientess)
+            lista_de_nomes.append(ingredientes[0].strip())
+        
+        min_ingredientes = min(lista_ingredientes) 
+        for i in range(len(lista_ingredientes)):
+            if lista_ingredientes[i] == min_ingredientes:
+                if lista_de_nomes[i] in receitas[i]:
+                    lista_da_receitamenor.append(receitas[i])
+                    lista_de_nomes_exibicao.append(lista_de_nomes[i])
+        
+        return lista_de_nomes_exibicao
+
+def selecionar_receita_view(lista_de_nomes_exibicao):
+    os.system('cls')
+    
+    for i, receita in enumerate(lista_de_nomes_exibicao, 1):
+        print(f"{i:^2} - {receita}")
+
+    print("==========================================================")
+    numero_str = input("Digite o número da receita que você quer ver: ")
+    
+    if not numero_str.strip():
+        os.system('cls')
+        print("Código deu erro. Número inválido.")
+        time.sleep(2)
+        os.system('cls')
+        return selecionar_receita_view(lista_de_nomes_exibicao)
+    
+    numero = int(numero_str)
+    return lista_de_nomes_exibicao[numero - 1]
+
+def exibir_receita(receita_nome):
+    os.system('cls')
+    receitas_escolhida = []
+    receitas_escolhida_passos = []
+
+    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+        for linha in arquivo:
+            if receita_nome in linha:
+                partes = linha.split(' - ')
+                for parte in partes:
+                    if '|' in parte and len(parte) >= 2:
+                        nomes_separados = parte.split('|')
+                        nomes_juntos = '\n⚬ '.join(nomes_separados)
+                        nomes_juntos_passos = '\n☛  '.join(nomes_separados)
+                        receitas_escolhida.append(nomes_juntos)
+                        receitas_escolhida_passos.append(nomes_juntos_passos)
+                    else:
+                        receitas_escolhida.append(parte)
+                        receitas_escolhida_passos.append(parte)
+
+    os.system('cls')
+
+    print(f"\t\t   ♨  Receita {receitas_escolhida[0]}  ♨")
+    print("==========================================================")
+    print(f"Ingredientes:\n\n⚬ {receitas_escolhida[2]}\n")
+    print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
+    print("==========================================================")
+
+def visualizar_menores():
+    receitas = func_extra()
+    receita_selecionada = selecionar_receita_view(receitas)
+    exibir_receita(receita_selecionada)
+    input("Pressione Enter para voltar ao menu principal: ")
+
 
 
     
