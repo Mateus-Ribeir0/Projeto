@@ -85,7 +85,7 @@ def cadastar_receita():
             juncao_passos = "|".join(passos)
             lista_de_cadastro.append(juncao_passos)
 
-            nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False' 
+            nova_receita = '\n' + ' - '.join(lista_de_cadastro) + ' - False'+ f" - {quant_de_ingredientes}"
             file.write(nova_receita)
 
             file.close()
