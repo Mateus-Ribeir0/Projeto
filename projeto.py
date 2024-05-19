@@ -102,14 +102,14 @@ def obter_receitas():
     
     return receitas
 
-titulo1='''
-▀█─█▀ ─▀─ █▀▀ █──█ █▀▀█ █── ─▀─ ▀▀█ █▀▀█ █▀▀ █▀▀█ █▀▀█ 　 █▀▀▄ █▀▀ 　 █▀▀█ █▀▀ █▀▀ █▀▀ ─▀─ ▀▀█▀▀ █▀▀█ 
-─█▄█─ ▀█▀ ▀▀█ █──█ █▄▄█ █── ▀█▀ ▄▀─ █▄▄█ █── █▄▄█ █──█ 　 █──█ █▀▀ 　 █▄▄▀ █▀▀ █── █▀▀ ▀█▀ ──█── █▄▄█ 
-──▀── ▀▀▀ ▀▀▀ ─▀▀▀ ▀──▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀──▀ ▀▀▀ ▀──▀ ▀▀▀▀ 　 ▀▀▀─ ▀▀▀ 　 ▀─▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀ ──▀── ▀──▀
-'''
 
 def selecionar_receita_view(receitas):
-    print(titulo1)
+    os.system('cls')
+
+    titulo='''
+█░█ █ █▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
+▀▄▀ █ ▄█ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█\n'''
+    print(titulo)
     for i, receita in enumerate(receitas, 1):
         print(f"{i:^2} - {receita}")
 
@@ -127,6 +127,10 @@ def selecionar_receita_view(receitas):
     return receitas[numero - 1]
 
 def selecionar_receita_edit(receitas):
+    titulo='''
+▄▀█ ▀█▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
+█▀█ ░█░ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█ \n'''
+    print(titulo)
     for i, receita in enumerate(receitas, 1):
         print(f"{i:^2} - {receita}")
 
@@ -640,7 +644,6 @@ def func_randomicas():
     input("Pressione enter para voltar ao menu principal: ")
 def func_extra():
     os.system('cls')
-    
     with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
         lista_ingredientes = []
         lista_de_nomes = []
@@ -665,7 +668,10 @@ def func_extra():
 
 def selecionar_receita_view(lista_de_nomes_exibicao):
     os.system('cls')
-    
+    titulo='''
+█▀▄▀█ █▀▀ █▄░█ █▀█ █▀█ █▀▀ █▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
+█░▀░█ ██▄ █░▀█ █▄█ █▀▄ ██▄ ▄█   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█ ▄█\n'''
+    print(titulo)
     for i, receita in enumerate(lista_de_nomes_exibicao, 1):
         print(f"{i:^2} - {receita}")
 
