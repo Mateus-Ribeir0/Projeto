@@ -123,33 +123,70 @@ def selecionar_receitass_view(receitas):
 █░█ █ █▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 ▀▄▀ █ ▄█ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█\n'''
     print(titulo)
-    for i, receita in enumerate(receitas, 1):
-        print(f"{i:^2} - {receita}")
+    try:
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
 
-    print("==========================================================")
-    numero_str = input("Digite o número da receita que você quer ver: ")
-    
-    if not numero_str.strip():
-        os.system('cls')
-        print("Código deu erro. Nenhum número foi fornecido.")
-        time.sleep(2)
-        os.system('cls')
-        return selecionar_receitass_view(receitas)
-    
-    numero = int(numero_str)
-    return receitas[numero - 1]
+        print("==========================================================")
+        numero_str = input("Digite o número da receita que você quer ver: ")
+        
+        if not numero_str.strip():
+            os.system('cls')
+            print("Código deu erro. Nenhum número foi fornecido.")
+            time.sleep(2)
+            os.system('cls')
+            return selecionar_receitass_view(receitas)
+        
+        numero = int(numero_str)
+        if numero==0:
+            print("==========================")
+            tratarErroGeral_sem_o_texto()
+            input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+        
+            return menu_interativo(acao)
+        else:
+        
+       
+            return receitas[numero - 1]
+        
+            
+
+    except IndexError:
+        print("==========================")
+        tratarErroGeral_sem_o_texto()
+        input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+        
+        return menu_interativo(acao)
+    except TypeError:
+        input("pressione enter para voltar ao menu")
+        return menu_interativo(acao)
+
 
 def selecionar_receitass_edit(receitas):
     titulo='''
 ▄▀█ ▀█▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 █▀█ ░█░ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█ \n'''
     print(titulo)
-    for i, receita in enumerate(receitas, 1):
-        print(f"{i:^2} - {receita}")
+    try:
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
 
-    print("==========================================================")
-    numero = int(input("Digite o número da receita que você quer editar: "))
-    return receitas[numero - 1]
+        print("==========================================================")
+        numero = int(input("Digite o número da receita que você quer editar: "))
+        if numero==0:
+                print("==========================")
+                tratarErroGeral_sem_o_texto()
+                input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+            
+                return menu_interativo(acao)
+        else:
+            return receitas[numero - 1]
+    except IndexError:
+        print("==========================")
+        tratarErroGeral_sem_o_texto()
+        input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+        
+        return menu_interativo(acao)   
 
 def exibir_receitass(receita):
     os.system('cls')
