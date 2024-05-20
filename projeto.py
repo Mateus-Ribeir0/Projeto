@@ -103,9 +103,7 @@ def cadastar_receita():
          print("==========================")
          tratarErroGeral_sem_o_texto()
          input("\n\nDigite de forma numerica!, Aperte qualquer tecla para voltar")
-                        
-                    
-
+        
 def obter_receitas():
     os.system('cls')
     with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
@@ -117,7 +115,6 @@ def obter_receitas():
         receitas.append(partes[0])
     
     return receitas
-
 
 def selecionar_receitass_view(receitas):
     os.system('cls')
@@ -250,10 +247,6 @@ def edit_ingredientes_receita(receita_selecionada):
     print("\nIngredientes Alterados com Sucesso!\n\n")
     print("======================================================") 
     input("Pressione Enter Para Voltar ao menu principal")
-  
-
-
-
 
 def edit_preparo_receita(receita_selecionada):
     os.system('cls')  
@@ -463,8 +456,6 @@ def AdicionarFavoritos():
 
     return receitas[numero - 1]
 
-import os
-
 def tratarErroGeral():
     os.system('cls')
     print('''
@@ -562,7 +553,6 @@ def ListaFavoritos():
             print("==========================================================")
 
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
-
 
 def filtragem():
     os.system('cls')
@@ -668,6 +658,7 @@ def func_randomicas():
         print("-", passo)
     print("====================================")          
     input("Pressione enter para voltar ao menu principal: ")
+
 def func_extra():
     os.system('cls')
     with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
@@ -748,9 +739,6 @@ def visualizar_menores():
     exibir_receitasss(receita_selecionadass)
     input("Pressione Enter para voltar ao menu principal: ")
 
-
-
-    
 
 #==================================  MENU PRINCIPAL  ==================================================#
 while True:
