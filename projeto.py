@@ -266,13 +266,13 @@ def edit_ingredientes_receita(receita_selecionada):
                     break
                 else:
                     print("Ingrediente inválido, digite apenas letras. Tente novamente.")
-        
+
         if not ingredientes[-1].strip():
             os.system('cls')
             print("Ingrediente inválido, digite novamente")
             time.sleep(2)
             return edit_ingredientes_receita(receita_selecionada)
-   
+
         leituraarquivo = '|'.join(ingredientes)
 
         with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
@@ -281,23 +281,25 @@ def edit_ingredientes_receita(receita_selecionada):
 
             for linha in partedoarquivo:
                 if receita_selecionada in linha:
-                    partes = linha.split(' - ', 4)
-                    linha_nova = partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - ' + 'False'
-                    nmringredientes.write(linha_nova)
+                    partes = linha.strip().split(' - ', 4)
+                    if len(partes) >= 4:
+                        linha_nova = partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - ' + 'False\n'
+                        nmringredientes.write(linha_nova)
+                    else:
+                        nmringredientes.write(linha)
                 else:
                     nmringredientes.write(linha)
             nmringredientes.truncate()
-    
+
         print("\nIngredientes Alterados com Sucesso!\n\n")
         print("======================================================")
         input("Pressione Enter Para Voltar ao menu principal")
     except ValueError:
-        tratarErroGeral()
-    
+        tratarErroGeral()    
 
 def edit_preparo_receita(receita_selecionada):
     os.system('cls')
-    try:   
+    try:
         lista_preparo = []
         qntd_de_preparo = int(input("Digite a quantidade de novos passos: "))
         print("====================================")
@@ -312,7 +314,7 @@ def edit_preparo_receita(receita_selecionada):
                     print("Passo inválido, digite apenas letras. Tente novamente.")
 
         if not lista_preparo[-1].strip():
-            os.system('cls')  
+            os.system('cls')
             print("Passo inválido, digite novamente.")
             time.sleep(2)
             return edit_preparo_receita(receita_selecionada)
@@ -322,23 +324,26 @@ def edit_preparo_receita(receita_selecionada):
         with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
             linhas_arquivo = arquivo.readlines()
             arquivo.seek(0)
-            
+
             for linha in linhas_arquivo:
                 if receita_selecionada in linha:
-                    partes = linha.split(' - ', 3)
-                    nova_linha = partes[0] + ' - ' + partes[1] + ' - ' + partes[2] + ' - '  + novo_preparo + ' - ' + ' False' 
-                    arquivo.write(nova_linha)
+                    partes = linha.strip().split(' - ', 4)
+                    if len(partes) >= 4:
+                        nova_linha = partes[0] + ' - ' + partes[1] + ' - ' + partes[2] + ' - ' + novo_preparo + ' - ' + 'False\n'
+                        arquivo.write(nova_linha)
+                    else:
+                        arquivo.write(linha)
                 else:
                     arquivo.write(linha)
             
             arquivo.truncate()
-            
+
         print("\nModo de preparo das receitas atualizado com sucesso!\n\n")
-        print("======================================================") 
+        print("======================================================")
         input("Pressione Enter Para Voltar ao menu principal")
     except ValueError:
         tratarErroGeral()
-
+        
 def atualizar():
     try: 
         receitas = obter_receitas()
