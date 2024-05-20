@@ -215,38 +215,48 @@ def edit_nome_receita(receita_selecionada):
 
 def edit_ingredientes_receita(receita_selecionada):
     os.system('cls')
-    ingredientes=[]
-    nmrdeingredientes= int(input("Digite a nova quantidade de ingredientes"))
-    print("===============================================")
+    try:
+        ingredientes = []
+        nmrdeingredientes = int(input("Digite a nova quantidade de ingredientes: "))
+        print("===============================================")
 
-    for numeracao in range(nmrdeingredientes):
-        novos_ingredientes= str(input(f"Diga o {numeracao+1} ingrediente: ")).strip()
-        novos_ingredientes1=novos_ingredientes.capitalize()
-        ingredientes.append(novos_ingredientes1)
-    if not ingredientes[-1].strip():
-        os.system('cls')    
-        print("ingrediente iválido, digite novamente")
-        time.sleep(2)
-        return edit_ingredientes_receita(receita_selecionada)
+        for numeracao in range(nmrdeingredientes):
+            while True:
+                novos_ingredientes = input(f"Diga o {numeracao+1} ingrediente: ").strip()
+                if all(caractere.isalpha() or caractere.isspace() for caractere in novos_ingredientes):
+                    novos_ingredientes1 = novos_ingredientes.capitalize()
+                    ingredientes.append(novos_ingredientes1)
+                    break
+                else:
+                    print("Ingrediente inválido, digite apenas letras. Tente novamente.")
+        
+        if not ingredientes[-1].strip():
+            os.system('cls')
+            print("Ingrediente inválido, digite novamente")
+            time.sleep(2)
+            return edit_ingredientes_receita(receita_selecionada)
    
-    leituraarquivo='|'.join(ingredientes)
+        leituraarquivo = '|'.join(ingredientes)
 
-    with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
-        partedoarquivo= nmringredientes.readlines()
-        nmringredientes.seek(0) 
+        with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
+            partedoarquivo = nmringredientes.readlines()
+            nmringredientes.seek(0)
 
-        for linha in partedoarquivo:
-            if receita_selecionada in linha:
-                partes = linha.split(' - ',4)
-                linha_nova= partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - '+ 'False'
-                nmringredientes.write(linha_nova)
-            else:
-             nmringredientes.write(linha)    
-        nmringredientes.truncate()
+            for linha in partedoarquivo:
+                if receita_selecionada in linha:
+                    partes = linha.split(' - ', 4)
+                    linha_nova = partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - ' + 'False'
+                    nmringredientes.write(linha_nova)
+                else:
+                    nmringredientes.write(linha)
+            nmringredientes.truncate()
     
-    print("\nIngredientes Alterados com Sucesso!\n\n")
-    print("======================================================") 
-    input("Pressione Enter Para Voltar ao menu principal")
+        print("\nIngredientes Alterados com Sucesso!\n\n")
+        print("======================================================")
+        input("Pressione Enter Para Voltar ao menu principal")
+    except ValueError:
+        tratarErroGeral()
+    
 
 def edit_preparo_receita(receita_selecionada):
     os.system('cls')  
