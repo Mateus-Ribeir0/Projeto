@@ -365,42 +365,55 @@ def atualizar():
         tratarErroGeral()
 
 def excluir():
-
     os.system('cls')
-
     file_path = 'Repositorio_de_receitas.txt'
     
     titulo = '''
 █▀▀ ▀▄▀ █▀▀ █   █ █ █▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
 ██▄ █ █ █▄▄ █▄▄ █▄█ ▄█ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█ ▄█
 '''
-
     print(titulo)
-    
-    receita_excluir = input("Digite o nome da receita que deseja excluir: ").strip().lower()
+
+    receitas = obter_receitas()
+
+    try:
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
+
+        print("==========================================================")
+
+    except TypeError:
+        input("Pressione enter para voltar ao menu")
+        return menu_interativo(acao)
+
+    try:
+        indice_excluir = int(input("Digite o índice da receita que deseja excluir: "))
+    except ValueError:
+        print("Por favor, insira um número válido.")
+        time.sleep(2)
+        return
+
+    if indice_excluir < 1 or indice_excluir > len(receitas):
+        print("Índice inválido. Tente novamente.")
+        time.sleep(2)
+        return
+
+    receita_excluir = receitas[indice_excluir - 1]
 
     with open(file_path, 'r', encoding='utf8') as file:
         todas_as_linhas = file.readlines()
-    
-    receitas_da_lista = [linha.split(' - ')[0].strip().lower() for linha in todas_as_linhas if linha.strip()]
-    
-    if receita_excluir not in receitas_da_lista:
-        print(f"Receita '{receita_excluir}' não encontrada.")
-        time.sleep(2)
-        return
-    
 
     linhas_final = [
         linha for linha in todas_as_linhas 
-        if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir
+        if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir.lower()
     ]
-    
+
     with open(file_path, 'w', encoding='utf8') as file:
         file.writelines(linhas_final)
-    
+
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
     time.sleep(2)
-
+    
 def MenuFavoritos():
     os.system('cls')
     titulo = '''
