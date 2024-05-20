@@ -126,33 +126,70 @@ def selecionar_receitass_view(receitas):
 █░█ █ █▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 ▀▄▀ █ ▄█ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█\n'''
     print(titulo)
-    for i, receita in enumerate(receitas, 1):
-        print(f"{i:^2} - {receita}")
+    try:
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
 
-    print("==========================================================")
-    numero_str = input("Digite o número da receita que você quer ver: ")
-    
-    if not numero_str.strip():
-        os.system('cls')
-        print("Código deu erro. Nenhum número foi fornecido.")
-        time.sleep(2)
-        os.system('cls')
-        return selecionar_receitass_view(receitas)
-    
-    numero = int(numero_str)
-    return receitas[numero - 1]
+        print("==========================================================")
+        numero_str = input("Digite o número da receita que você quer ver: ")
+        
+        if not numero_str.strip():
+            os.system('cls')
+            print("Código deu erro. Nenhum número foi fornecido.")
+            time.sleep(2)
+            os.system('cls')
+            return selecionar_receitass_view(receitas)
+        
+        numero = int(numero_str)
+        if numero==0:
+            print("==========================")
+            tratarErroGeral_sem_o_texto()
+            input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+        
+            return menu_interativo(acao)
+        else:
+        
+       
+            return receitas[numero - 1]
+        
+            
+
+    except IndexError:
+        print("==========================")
+        tratarErroGeral_sem_o_texto()
+        input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+        
+        return menu_interativo(acao)
+    except TypeError:
+        input("pressione enter para voltar ao menu")
+        return menu_interativo(acao)
+
 
 def selecionar_receitass_edit(receitas):
     titulo='''
 ▄▀█ ▀█▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 █▀█ ░█░ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█ \n'''
     print(titulo)
-    for i, receita in enumerate(receitas, 1):
-        print(f"{i:^2} - {receita}")
+    try:
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
 
-    print("==========================================================")
-    numero = int(input("Digite o número da receita que você quer editar: "))
-    return receitas[numero - 1]
+        print("==========================================================")
+        numero = int(input("Digite o número da receita que você quer editar: "))
+        if numero==0:
+                print("==========================")
+                tratarErroGeral_sem_o_texto()
+                input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+            
+                return menu_interativo(acao)
+        else:
+            return receitas[numero - 1]
+    except IndexError:
+        print("==========================")
+        tratarErroGeral_sem_o_texto()
+        input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
+        
+        return menu_interativo(acao)   
 
 def exibir_receitass(receita):
     os.system('cls')
@@ -221,6 +258,8 @@ def edit_ingredientes_receita(receita_selecionada):
     ingredientes=[]
     nmrdeingredientes= int(input("Digite a nova quantidade de ingredientes"))
     print("===============================================")
+  
+
 
     for numeracao in range(nmrdeingredientes):
         novos_ingredientes= str(input(f"Diga o {numeracao+1} ingrediente: ")).strip()
@@ -231,7 +270,7 @@ def edit_ingredientes_receita(receita_selecionada):
         print("ingrediente iválido, digite novamente")
         time.sleep(2)
         return edit_ingredientes_receita(receita_selecionada)
-   
+    
     leituraarquivo='|'.join(ingredientes)
 
     with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
@@ -244,13 +283,13 @@ def edit_ingredientes_receita(receita_selecionada):
                 linha_nova= partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - '+ 'False'
                 nmringredientes.write(linha_nova)
             else:
-             nmringredientes.write(linha)    
+                nmringredientes.write(linha)    
         nmringredientes.truncate()
-    
+        
     print("\nIngredientes Alterados com Sucesso!\n\n")
     print("======================================================") 
     input("Pressione Enter Para Voltar ao menu principal")
-  
+    
 
 
 
@@ -294,20 +333,24 @@ def edit_preparo_receita(receita_selecionada):
     input("Pressione Enter Para Voltar ao menu principal")
 
 def atualizar():
-    receitas = obter_receitas()
-    receita_selecionada = selecionar_receitass_edit(receitas)
-    exibir_receitass(receita_selecionada)
-    
-    opcao_escolhida_edit = int(input("Digite:\n\n(1) Para editar o nome da receita.\n(2) Para editar os ingredientes.\n(3) Para editar o modo de preparo.\n\n"))
+   
+        receitas = obter_receitas()
+        receita_selecionada = selecionar_receitass_edit(receitas)
+        exibir_receitass(receita_selecionada)
+        
+        opcao_escolhida_edit = int(input("Digite:\n\n(1) Para editar o nome da receita.\n(2) Para editar os ingredientes.\n(3) Para editar o modo de preparo.\n\n"))
 
-    if opcao_escolhida_edit == 1:
-        edit_nome_receita(receita_selecionada)
-    elif opcao_escolhida_edit == 2:
-        edit_ingredientes_receita(receita_selecionada)
-    elif opcao_escolhida_edit == 3:
-        edit_preparo_receita(receita_selecionada)
-    else:
-        print("Opção invalida.")
+        if opcao_escolhida_edit == 1:
+            edit_nome_receita(receita_selecionada)
+        elif opcao_escolhida_edit == 2:
+            edit_ingredientes_receita(receita_selecionada)
+        elif opcao_escolhida_edit == 3:
+            edit_preparo_receita(receita_selecionada)
+        else:
+            os.system('cls')
+            print("Opção invalida.")
+            input("Pressione enter para voltar ao menu principal:")
+    
 
 def excluir():
 
