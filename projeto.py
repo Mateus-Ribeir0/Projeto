@@ -103,7 +103,7 @@ def obter_receitas():
     return receitas
 
 
-def selecionar_receita_view(receitas):
+def selecionar_receitass_view(receitas):
     os.system('cls')
 
     titulo='''
@@ -121,12 +121,12 @@ def selecionar_receita_view(receitas):
         print("Código deu erro. Nenhum número foi fornecido.")
         time.sleep(2)
         os.system('cls')
-        return selecionar_receita_view(receitas)
+        return selecionar_receitass_view(receitas)
     
     numero = int(numero_str)
     return receitas[numero - 1]
 
-def selecionar_receita_edit(receitas):
+def selecionar_receitass_edit(receitas):
     titulo='''
 ▄▀█ ▀█▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 █▀█ ░█░ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█ \n'''
@@ -138,7 +138,7 @@ def selecionar_receita_edit(receitas):
     numero = int(input("Digite o número da receita que você quer editar: "))
     return receitas[numero - 1]
 
-def exibir_receita(receita):
+def exibir_receitass(receita):
     os.system('cls')
     receitas_escolhida = []
     receitas_escolhida_passos = []
@@ -170,8 +170,8 @@ def exibir_receita(receita):
 
 def visualizar_receita():
     receitas = obter_receitas()
-    receita_selecionada = selecionar_receita_view(receitas)
-    exibir_receita(receita_selecionada)
+    receita_selecionada = selecionar_receitass_view(receitas)
+    exibir_receitass(receita_selecionada)
     input("Pressione Enter para voltar ao menu principal: ")
 
 def edit_nome_receita(receita_selecionada):
@@ -279,8 +279,8 @@ def edit_preparo_receita(receita_selecionada):
 
 def atualizar():
     receitas = obter_receitas()
-    receita_selecionada = selecionar_receita_edit(receitas)
-    exibir_receita(receita_selecionada)
+    receita_selecionada = selecionar_receitass_edit(receitas)
+    exibir_receitass(receita_selecionada)
     
     opcao_escolhida_edit = int(input("Digite:\n\n(1) Para editar o nome da receita.\n(2) Para editar os ingredientes.\n(3) Para editar o modo de preparo.\n\n"))
 
@@ -433,7 +433,7 @@ def AdicionarFavoritos():
         print("Código deu erro. Nenhum número foi fornecido.")
         time.sleep(2)
         os.system('cls')
-        return selecionar_receita_view(receitas)
+        return selecionar_receitass_view(receitas)
     
     numero = int(escolhido)
 
@@ -666,7 +666,7 @@ def func_extra():
         
         return lista_de_nomes_exibicao
 
-def selecionar_receita_view(lista_de_nomes_exibicao):
+def selecionar_receita_views(lista_de_nomes_exibicao):
     os.system('cls')
     titulo='''
 █▀▄▀█ █▀▀ █▄░█ █▀█ █▀█ █▀▀ █▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
@@ -683,12 +683,12 @@ def selecionar_receita_view(lista_de_nomes_exibicao):
         print("Código deu erro. Número inválido.")
         time.sleep(2)
         os.system('cls')
-        return selecionar_receita_view(lista_de_nomes_exibicao)
+        return selecionar_receita_views(lista_de_nomes_exibicao)
     
     numero = int(numero_str)
     return lista_de_nomes_exibicao[numero - 1]
 
-def exibir_receita(receita_nome):
+def exibir_receitasss(receita_nome):
     os.system('cls')
     receitas_escolhida = []
     receitas_escolhida_passos = []
@@ -717,9 +717,9 @@ def exibir_receita(receita_nome):
     print("==========================================================")
 
 def visualizar_menores():
-    receitas = func_extra()
-    receita_selecionada = selecionar_receita_view(receitas)
-    exibir_receita(receita_selecionada)
+    receitass = func_extra()
+    receita_selecionadass = selecionar_receita_views(receitass)
+    exibir_receitasss(receita_selecionadass)
     input("Pressione Enter para voltar ao menu principal: ")
 
 
