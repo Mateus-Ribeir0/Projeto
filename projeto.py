@@ -103,9 +103,7 @@ def cadastar_receita():
          print("==========================")
          tratarErroGeral_sem_o_texto()
          input("\n\nDigite de forma numerica!, Aperte qualquer tecla para voltar")
-                        
-                    
-
+        
 def obter_receitas():
     os.system('cls')
     with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
@@ -117,7 +115,6 @@ def obter_receitas():
         receitas.append(partes[0])
     
     return receitas
-
 
 def selecionar_receitass_view(receitas):
     os.system('cls')
@@ -255,44 +252,48 @@ def edit_nome_receita(receita_selecionada):
 
 def edit_ingredientes_receita(receita_selecionada):
     os.system('cls')
-    ingredientes=[]
-    nmrdeingredientes= int(input("Digite a nova quantidade de ingredientes"))
-    print("===============================================")
-  
+    try:
+        ingredientes = []
+        nmrdeingredientes = int(input("Digite a nova quantidade de ingredientes: "))
+        print("===============================================")
 
-
-    for numeracao in range(nmrdeingredientes):
-        novos_ingredientes= str(input(f"Diga o {numeracao+1} ingrediente: ")).strip()
-        novos_ingredientes1=novos_ingredientes.capitalize()
-        ingredientes.append(novos_ingredientes1)
-    if not ingredientes[-1].strip():
-        os.system('cls')    
-        print("ingrediente iválido, digite novamente")
-        time.sleep(2)
-        return edit_ingredientes_receita(receita_selecionada)
-    
-    leituraarquivo='|'.join(ingredientes)
-
-    with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
-        partedoarquivo= nmringredientes.readlines()
-        nmringredientes.seek(0) 
-
-        for linha in partedoarquivo:
-            if receita_selecionada in linha:
-                partes = linha.split(' - ',4)
-                linha_nova= partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - '+ 'False'
-                nmringredientes.write(linha_nova)
-            else:
-                nmringredientes.write(linha)    
-        nmringredientes.truncate()
+        for numeracao in range(nmrdeingredientes):
+            while True:
+                novos_ingredientes = input(f"Diga o {numeracao+1} ingrediente: ").strip()
+                if all(caractere.isalpha() or caractere.isspace() for caractere in novos_ingredientes):
+                    novos_ingredientes1 = novos_ingredientes.capitalize()
+                    ingredientes.append(novos_ingredientes1)
+                    break
+                else:
+                    print("Ingrediente inválido, digite apenas letras. Tente novamente.")
         
-    print("\nIngredientes Alterados com Sucesso!\n\n")
-    print("======================================================") 
-    input("Pressione Enter Para Voltar ao menu principal")
+        if not ingredientes[-1].strip():
+            os.system('cls')
+            print("Ingrediente inválido, digite novamente")
+            time.sleep(2)
+            return edit_ingredientes_receita(receita_selecionada)
+   
+        leituraarquivo = '|'.join(ingredientes)
+
+        with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as nmringredientes:
+            partedoarquivo = nmringredientes.readlines()
+            nmringredientes.seek(0)
+
+            for linha in partedoarquivo:
+                if receita_selecionada in linha:
+                    partes = linha.split(' - ', 4)
+                    linha_nova = partes[0] + ' - ' + partes[1] + ' - ' + leituraarquivo + ' - ' + partes[3] + ' - ' + 'False'
+                    nmringredientes.write(linha_nova)
+                else:
+                    nmringredientes.write(linha)
+            nmringredientes.truncate()
     
-
-
-
+        print("\nIngredientes Alterados com Sucesso!\n\n")
+        print("======================================================")
+        input("Pressione Enter Para Voltar ao menu principal")
+    except ValueError:
+        tratarErroGeral()
+    
 
 def edit_preparo_receita(receita_selecionada):
     os.system('cls')  
@@ -506,8 +507,6 @@ def AdicionarFavoritos():
 
     return receitas[numero - 1]
 
-import os
-
 def tratarErroGeral():
     os.system('cls')
     print('''
@@ -606,7 +605,6 @@ def ListaFavoritos():
 
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
 
-
 def filtragem():
     os.system('cls')
 
@@ -618,7 +616,6 @@ def filtragem():
 █▀▀ █ █   ▀█▀ █▀█ █▀█   █▀█ █▀█ █▀█   █▀█ ▄▀█ █ █▀
 █▀  █ █▄▄  █  █▀▄ █▄█   █▀▀ █▄█ █▀▄   █▀▀ █▀█ █ ▄█
 '''
-
     print(titulo)
 
     paises = []
@@ -634,57 +631,70 @@ def filtragem():
             paises.pop()
             continue
     print("==========================================================")
-    pais_filtrato = int(input("Escolha o país o qual deseja visualizar as receitas: "))
 
-    os.system('cls')
+    try:
+        pais_filtrado = int(input("Escolha o país o qual deseja visualizar as receitas: "))
 
-    receitas_filtradas = []
-    for receita in lista_de_paises:  # Separando as receitas do país escolhido em uma lista
-        pais_escolhido = receita.split(' - ')
-        if paises[pais_filtrato - 1] == pais_escolhido[1]:
-            receitas_filtradas.append(receita)
+        if pais_filtrado == 0:
+            return tratarErroGeral()
+        else:
+            os.system('cls')
 
-    print(f"\t\tReceitas do(a) {paises[pais_filtrato - 1]}  ")
-    print("==========================================================")
+            receitas_filtradas = []
+            for receita in lista_de_paises:  # Separando as receitas do país escolhido em uma lista
+                pais_escolhido = receita.split(' - ')
 
-    nomes_das_receitas = []
-    j = 1
-    for receita in receitas_filtradas:  # filtrando os nomes das receitas em uma lista para posterior escolha
-        nome = receita.split(' - ')
-        nomes_das_receitas.append(nome[0])
+                if paises[pais_filtrado - 1] == pais_escolhido[1]:
+                    receitas_filtradas.append(receita)
 
-        print(f"{j} - {nome[0]}")
-        j += 1
-    print("==========================================================")
-    indice_receita_escolhida = int(input("Receita: "))
+            print(f"\t\tReceitas do(a) {paises[pais_filtrado - 1]}  ")
+            print("==========================================================")
 
-    receita_escolhida = []
-    receita_escolhida_passos = []
-    for receita in receitas_filtradas:  # adicionando a receita escolhida em uma lista
-        if nomes_das_receitas[indice_receita_escolhida - 1] in receita:
-            receita_separada = receita.split(' - ')
+            nomes_das_receitas = []
+            j = 1
+            for receita in receitas_filtradas:  # filtrando os nomes das receitas em uma lista para posterior escolha
+                nome = receita.split(' - ')
+                nomes_das_receitas.append(nome[0])
 
-            for k in receita_separada:  # formatando os nomes para uma melhor leitura
-                if '|' in k and len(k) >= 2:
-                    nome_separado = k.split('|')
-                    nome_junto = '\n⚬ '.join(nome_separado)
-                    nome_junto_passos = '\n☛  '.join(nome_separado)
-                    receita_escolhida.append(nome_junto)
-                    receita_escolhida_passos.append(nome_junto_passos)
-                else:
-                    receita_escolhida.append(k)
-                    receita_escolhida_passos.append(k)
+                print(f"{j} - {nome[0]}")
+                j += 1
+            print("==========================================================")
+        indice_receita_escolhida = int(input("Receita: "))
 
-    os.system('cls')
+        if indice_receita_escolhida == 0:
+            return tratarErroGeral()
+        else:
+            receita_escolhida = []
+            receita_escolhida_passos = []
+            for receita in receitas_filtradas:  # adicionando a receita escolhida em uma lista
+                if nomes_das_receitas[indice_receita_escolhida - 1] in receita:
+                    receita_separada = receita.split(' - ')
 
-    print(f"\t ♨  Receita {receita_escolhida[0]}  ♨")
-    print("==========================================================")
-    print(f"Ingredientes:\n\n⚬ {receita_escolhida[2]}\n")
-    print(f"Modo de preparo:\n\n☛  {receita_escolhida_passos[3]}")
-    print("==========================================================")
+                    for k in receita_separada:  # formatando os nomes para uma melhor leitura
+                        if '|' in k and len(k) >= 2:
+                            nome_separado = k.split('|')
+                            nome_junto = '\n⚬ '.join(nome_separado)
+                            nome_junto_passos = '\n☛  '.join(nome_separado)
+                            receita_escolhida.append(nome_junto)
+                            receita_escolhida_passos.append(nome_junto_passos)
+                        else:
+                            receita_escolhida.append(k)
+                            receita_escolhida_passos.append(k)
 
-    voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+            os.system('cls')
 
+            print(f"\t\t ♨  Receita {receita_escolhida[0]}  ♨")
+            print("==========================================================")
+            print(f"Ingredientes:\n\n⚬ {receita_escolhida[2]}\n")
+            print(f"Modo de preparo:\n\n☛  {receita_escolhida_passos[3]}")
+            print("==========================================================")
+            voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+
+    except ValueError:
+        tratarErroGeral()
+    except IndexError:
+        tratarErroGeral()
+        
 def func_randomicas():
     os.system('cls')  
     with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
@@ -711,6 +721,7 @@ def func_randomicas():
         print("-", passo)
     print("====================================")          
     input("Pressione enter para voltar ao menu principal: ")
+
 def func_extra():
     os.system('cls')
     with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
@@ -791,9 +802,6 @@ def visualizar_menores():
     exibir_receitasss(receita_selecionadass)
     input("Pressione Enter para voltar ao menu principal: ")
 
-
-
-    
 
 #==================================  MENU PRINCIPAL  ==================================================#
 while True:
