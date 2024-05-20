@@ -259,58 +259,67 @@ def edit_ingredientes_receita(receita_selecionada):
     
 
 def edit_preparo_receita(receita_selecionada):
-    os.system('cls')  
-    lista_preparo = []
-    qntd_de_preparo = int(input("Digite a quantidade de novos passos: "))
-    print("====================================")
-    
-    for posicao in range(qntd_de_preparo):
-        novo_modo_preparo = str(input(f"Digite o {posicao+1}° passo: ")).strip().capitalize()
-        lista_preparo.append(novo_modo_preparo)
-
-    if not lista_preparo[-1].strip():
-        os.system('cls')  
-        print("Passo inválido, digite novamente.")
-        time.sleep(2)
-        return edit_preparo_receita(receita_selecionada)
-
-
-    novo_preparo = '|'.join(lista_preparo)
-
-
-    with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
-        linhas_arquivo = arquivo.readlines()
-        arquivo.seek(0)
+    os.system('cls')
+    try:   
+        lista_preparo = []
+        qntd_de_preparo = int(input("Digite a quantidade de novos passos: "))
+        print("====================================")
         
-        for linha in linhas_arquivo:
-            if receita_selecionada in linha:
-                partes = linha.split(' - ', 3)
-                nova_linha = partes[0] + ' - ' + partes[1] + ' - ' + partes[2] + ' - '  + novo_preparo + ' - ' + ' False' 
-                arquivo.write(nova_linha)
-            else:
-                arquivo.write(linha)
-        
-        arquivo.truncate()
-        
-    print("\nModo de preparo das receitas atualizado com sucesso!\n\n")
-    print("======================================================") 
-    input("Pressione Enter Para Voltar ao menu principal")
+        for posicao in range(qntd_de_preparo):
+            while True:
+                novo_modo_preparo = input(f"Digite o {posicao+1}° passo: ").strip().capitalize()
+                if all(caractere.isalpha() or caractere.isspace() for caractere in novo_modo_preparo):
+                    lista_preparo.append(novo_modo_preparo)
+                    break
+                else:
+                    print("Passo inválido, digite apenas letras. Tente novamente.")
+
+        if not lista_preparo[-1].strip():
+            os.system('cls')  
+            print("Passo inválido, digite novamente.")
+            time.sleep(2)
+            return edit_preparo_receita(receita_selecionada)
+
+        novo_preparo = '|'.join(lista_preparo)
+
+        with open("Repositorio_de_receitas.txt", "r+", encoding="utf8") as arquivo:
+            linhas_arquivo = arquivo.readlines()
+            arquivo.seek(0)
+            
+            for linha in linhas_arquivo:
+                if receita_selecionada in linha:
+                    partes = linha.split(' - ', 3)
+                    nova_linha = partes[0] + ' - ' + partes[1] + ' - ' + partes[2] + ' - '  + novo_preparo + ' - ' + ' False' 
+                    arquivo.write(nova_linha)
+                else:
+                    arquivo.write(linha)
+            
+            arquivo.truncate()
+            
+        print("\nModo de preparo das receitas atualizado com sucesso!\n\n")
+        print("======================================================") 
+        input("Pressione Enter Para Voltar ao menu principal")
+    except ValueError:
+        tratarErroGeral()
 
 def atualizar():
-    receitas = obter_receitas()
-    receita_selecionada = selecionar_receitass_edit(receitas)
-    exibir_receitass(receita_selecionada)
+    try: 
+        receitas = obter_receitas()
+        receita_selecionada = selecionar_receitass_edit(receitas)
+        exibir_receitass(receita_selecionada)
     
-    opcao_escolhida_edit = int(input("Digite:\n\n(1) Para editar o nome da receita.\n(2) Para editar os ingredientes.\n(3) Para editar o modo de preparo.\n\n"))
+        opcao_escolhida_edit = int(input("Digite:\n\n(1) Para editar o nome da receita.\n(2) Para editar os ingredientes.\n(3) Para editar o modo de preparo.\n\n"))
 
-    if opcao_escolhida_edit == 1:
-        edit_nome_receita(receita_selecionada)
-    elif opcao_escolhida_edit == 2:
-        edit_ingredientes_receita(receita_selecionada)
-    elif opcao_escolhida_edit == 3:
-        edit_preparo_receita(receita_selecionada)
-    else:
-        print("Opção invalida.")
+        if opcao_escolhida_edit == 1:
+            edit_nome_receita(receita_selecionada)
+        elif opcao_escolhida_edit == 2:
+            edit_ingredientes_receita(receita_selecionada)
+        elif opcao_escolhida_edit == 3:
+            edit_preparo_receita(receita_selecionada)
+        else:
+            print("Opção invalida.")
+    except ValueError:
+        tratarErroGeral()
 
 def excluir():
 
