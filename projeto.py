@@ -119,46 +119,47 @@ def obter_receitas():
 def selecionar_receitass_view(receitas):
     os.system('cls')
 
-    titulo='''
+    titulo = '''
 █░█ █ █▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 ▀▄▀ █ ▄█ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█\n'''
     print(titulo)
+
     try:
         for i, receita in enumerate(receitas, 1):
             print(f"{i:^2} - {receita}")
 
         print("==========================================================")
         numero_str = input("Digite o número da receita que você quer ver: ")
-        
+
         if not numero_str.strip():
             os.system('cls')
             print("Código deu erro. Nenhum número foi fornecido.")
             time.sleep(2)
             os.system('cls')
             return selecionar_receitass_view(receitas)
-        
+
         numero = int(numero_str)
-        if numero==0:
-            print("==========================")
-            tratarErroGeral_sem_o_texto()
-            input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
         
-            return menu_interativo(acao)
-        else:
+        if numero == 0 or numero > len(receitas):
+            raise IndexError
         
-       
-            return receitas[numero - 1]
-        
-            
+        return receitas[numero - 1]
 
     except IndexError:
         print("==========================")
         tratarErroGeral_sem_o_texto()
-        input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
-        
-        return menu_interativo(acao)
+        input("\n\nDigite um número que esteja dentro do intervalo demonstrado! Aperte qualquer tecla para voltar:")
+        return selecionar_receitass_view(receitas)
+
+    except ValueError:
+        os.system('cls')
+        print("Entrada inválida. Por favor, digite um número válido.")
+        time.sleep(2)
+        os.system('cls')
+        return selecionar_receitass_view(receitas)
+
     except TypeError:
-        input("pressione enter para voltar ao menu")
+        input("Pressione enter para voltar ao menu")
         return menu_interativo(acao)
 
 
@@ -343,7 +344,7 @@ def edit_preparo_receita(receita_selecionada):
         input("Pressione Enter Para Voltar ao menu principal")
     except ValueError:
         tratarErroGeral()
-        
+
 def atualizar():
     try: 
         receitas = obter_receitas()
