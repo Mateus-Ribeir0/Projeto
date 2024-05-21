@@ -145,8 +145,7 @@ def selecionar_receitass_view(receitas):
         
             return menu_interativo(acao)
         else:
-        
-       
+
             return receitas[numero - 1]
         
             
@@ -160,7 +159,7 @@ def selecionar_receitass_view(receitas):
     except TypeError:
         input("pressione enter para voltar ao menu")
         return menu_interativo(acao)
-
+    
 
 def selecionar_receitass_edit(receitas):
     titulo='''
@@ -367,18 +366,15 @@ def excluir():
 
     os.system('cls')
 
-    file_path = 'Repositorio_de_receitas.txt'
-    
     titulo = '''
 █▀▀ ▀▄▀ █▀▀ █   █ █ █▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
 ██▄ █ █ █▄▄ █▄▄ █▄█ ▄█ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█ ▄█
 '''
-
     print(titulo)
     
     receita_excluir = input("Digite o nome da receita que deseja excluir: ").strip().lower()
 
-    with open(file_path, 'r', encoding='utf8') as file:
+    with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as file:
         todas_as_linhas = file.readlines()
     
     receitas_da_lista = [linha.split(' - ')[0].strip().lower() for linha in todas_as_linhas if linha.strip()]
@@ -387,14 +383,14 @@ def excluir():
         print(f"Receita '{receita_excluir}' não encontrada.")
         time.sleep(2)
         return
-    
+
 
     linhas_final = [
         linha for linha in todas_as_linhas 
         if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir
     ]
     
-    with open(file_path, 'w', encoding='utf8') as file:
+    with open('Repositorio_de_receitas.txt', 'w', encoding='utf8') as file:
         file.writelines(linhas_final)
     
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
@@ -526,7 +522,8 @@ def tratarErroGeral():
 ██╔══╝░░██╔══██╗██╔══██╗██║░░██║  ██║░░██║██╔══╝░░░░░██║░░░██╔══╝░░██║░░██╗░░░██║░░░██╔══██║██║░░██║██║░░██║
 ███████╗██║░░██║██║░░██║╚█████╔╝  ██████╔╝███████╗░░░██║░░░███████╗╚█████╔╝░░░██║░░░██║░░██║██████╔╝╚█████╔╝
 ╚══════╝╚═╝░░╚═╝╚═╝░░╚═╝░╚════╝░  ╚═════╝░╚══════╝░░░╚═╝░░░╚══════╝░╚════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═════╝░░╚════╝░\n\n''')
-    return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+    print("Opção invalida!")
+    time.sleep(2)
 
 def tratarErroTamanho():
     os.system('cls')
@@ -607,10 +604,13 @@ def ListaFavoritos():
         else:
             receita_escolhida = receitas_filtradas[indice_receita_escolhida - 1]
 
+
+            ingredientes = '\n⚬ '.join(receita_escolhida[2].split('|'))
+            preparo = '\n☛  '.join(receita_escolhida[3].split('|'))
             print(f"\t ♨  Receita {receita_escolhida[0]}  ♨")
             print("==========================================================")
-            print(f"Ingredientes:\n\n⚬ {'\n⚬ '.join(receita_escolhida[2].split('|'))}\n")
-            print(f"Modo de preparo:\n\n☛  {'\n☛  '.join(receita_escolhida[3].split('|'))}")
+            print(f"Ingredientes:\n\n⚬ {ingredientes}\n")
+            print(f"Modo de preparo:\n\n☛  {preparo}")
             print("==========================================================")
 
     voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
@@ -737,8 +737,6 @@ def func_extra():
     with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as arquivoR:
         lista_ingredientes = []
         lista_de_nomes = []
-        lista_da_receitamenor = []
-        lista_de_nomes_exibicao = []
         
         receitas = arquivoR.readlines()
         for receita in receitas:
@@ -747,14 +745,18 @@ def func_extra():
             lista_ingredientes.append(ingredientess)
             lista_de_nomes.append(ingredientes[0].strip())
         
-        min_ingredientes = min(lista_ingredientes) 
-        for i in range(len(lista_ingredientes)):
-            if lista_ingredientes[i] == min_ingredientes:
-                if lista_de_nomes[i] in receitas[i]:
+        if lista_ingredientes:
+            min_ingredientes = min(lista_ingredientes)
+            lista_da_receitamenor = []
+            lista_de_nomes_exibicao = []
+            for i in range(len(lista_ingredientes)):
+                if lista_ingredientes[i] == min_ingredientes:
                     lista_da_receitamenor.append(receitas[i])
                     lista_de_nomes_exibicao.append(lista_de_nomes[i])
-        
-        return lista_de_nomes_exibicao
+
+            return lista_de_nomes_exibicao
+        else:
+            return []
 
 def selecionar_receita_views(lista_de_nomes_exibicao):
     os.system('cls')
@@ -762,55 +764,75 @@ def selecionar_receita_views(lista_de_nomes_exibicao):
 █▀▄▀█ █▀▀ █▄░█ █▀█ █▀█ █▀▀ █▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
 █░▀░█ ██▄ █░▀█ █▄█ █▀▄ ██▄ ▄█   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█ ▄█\n'''
     print(titulo)
-    for i, receita in enumerate(lista_de_nomes_exibicao, 1):
-        print(f"{i:^2} - {receita}")
+    if lista_de_nomes_exibicao:
+        for i, receita in enumerate(lista_de_nomes_exibicao, 1):
+            print(f"{i:^2} - {receita}")
 
-    print("==========================================================")
-    numero_str = input("Digite o número da receita que você quer ver: ")
-    
-    if not numero_str.strip():
-        os.system('cls')
-        print("Código deu erro. Número inválido.")
-        time.sleep(2)
-        os.system('cls')
-        return selecionar_receita_views(lista_de_nomes_exibicao)
-    
-    numero = int(numero_str)
-    return lista_de_nomes_exibicao[numero - 1]
+        print("==========================================================")
+
+        try:
+            numero_str = input("Digite o número da receita que você quer ver: ")
+        
+            if not numero_str.strip():
+                os.system('cls')
+                print("Código deu erro. Número inválido.")
+                time.sleep(2)
+                os.system('cls')
+                return selecionar_receita_views(lista_de_nomes_exibicao)
+            
+            numero = int(numero_str)
+
+            if numero == 0:
+                return tratarErroGeral()
+            else:
+                return lista_de_nomes_exibicao[numero - 1]
+        except ValueError:
+            tratarErroGeral()
+        except IndexError:
+            tratarErroGeral()
+    else:
+        return None
 
 def exibir_receitasss(receita_nome):
     os.system('cls')
-    receitas_escolhida = []
-    receitas_escolhida_passos = []
+    if receita_nome:
+        receitas_escolhida = []
+        receitas_escolhida_passos = []
 
-    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
-        for linha in arquivo:
-            if receita_nome in linha:
-                partes = linha.split(' - ')
-                for parte in partes:
-                    if '|' in parte and len(parte) >= 2:
-                        nomes_separados = parte.split('|')
-                        nomes_juntos = '\n⚬ '.join(nomes_separados)
-                        nomes_juntos_passos = '\n☛  '.join(nomes_separados)
-                        receitas_escolhida.append(nomes_juntos)
-                        receitas_escolhida_passos.append(nomes_juntos_passos)
-                    else:
-                        receitas_escolhida.append(parte)
-                        receitas_escolhida_passos.append(parte)
+        with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+            for linha in arquivo:
+                if receita_nome in linha:
+                    partes = linha.split(' - ')
+                    for parte in partes:
+                        if '|' in parte and len(parte) >= 2:
+                            nomes_separados = parte.split('|')
+                            nomes_juntos = '\n⚬ '.join(nomes_separados)
+                            nomes_juntos_passos = '\n☛  '.join(nomes_separados)
+                            receitas_escolhida.append(nomes_juntos)
+                            receitas_escolhida_passos.append(nomes_juntos_passos)
+                        else:
+                            receitas_escolhida.append(parte)
+                            receitas_escolhida_passos.append(parte)
 
-    os.system('cls')
+        os.system('cls')
 
-    print(f"\t\t   ♨  Receita {receitas_escolhida[0]}  ♨")
-    print("==========================================================")
-    print(f"Ingredientes:\n\n⚬ {receitas_escolhida[2]}\n")
-    print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
-    print("==========================================================")
+        print(f"\t\t   ♨  Receita {receitas_escolhida[0]}  ♨")
+        print("==========================================================")
+        print(f"Ingredientes:\n\n⚬ {receitas_escolhida[2]}\n")
+        print(f"Modo de preparo:\n\n☛  {receitas_escolhida_passos[3]}")
+        print("==========================================================")
+    else:
+        print("Não foi possível exibir a receita.")
 
 def visualizar_menores():
     receitass = func_extra()
-    receita_selecionadass = selecionar_receita_views(receitass)
-    exibir_receitasss(receita_selecionadass)
-    input("Pressione Enter para voltar ao menu principal: ")
+    if receitass:
+        receita_selecionadass = selecionar_receita_views(receitass)
+        if receita_selecionadass:
+            exibir_receitasss(receita_selecionadass)
+            input("Pressione Enter para voltar ao menu principal: ")
+    else:
+        input("Não há receitas para visualizar. Pressione Enter para voltar ao menu principal: ")
 
 
 #==================================  MENU PRINCIPAL  ==================================================#
