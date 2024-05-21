@@ -162,7 +162,6 @@ def selecionar_receitass_view(receitas):
         input("Pressione enter para voltar ao menu")
         return menu_interativo(acao)
     
-
 def selecionar_receitass_edit(receitas):
     titulo='''
 ▄▀█ ▀█▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
@@ -366,13 +365,14 @@ def atualizar():
 
 def excluir():
     os.system('cls')
-    file_path = "Repositorio_de_receitas.txt"
+    file_path = 'Repositorio_de_receitas.txt'
+
     titulo = '''
 █▀▀ ▀▄▀ █▀▀ █   █ █ █▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
 ██▄ █ █ █▄▄ █▄▄ █▄█ ▄█ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█ ▄█
 '''
     print(titulo)
-
+    
     receitas = obter_receitas()
 
     try:
@@ -389,13 +389,6 @@ def excluir():
         indice_excluir = int(input("Digite o índice da receita que deseja excluir: "))
     except ValueError:
         print("Por favor, insira um número válido.")
-    with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as file:
-        todas_as_linhas = file.readlines()
-    
-    receitas_da_lista = [linha.split(' - ')[0].strip().lower() for linha in todas_as_linhas if linha.strip()]
-    
-    if receita_excluir not in receitas_da_lista:
-        print(f"Receita '{receita_excluir}' não encontrada.")
         time.sleep(2)
         return
 
@@ -414,8 +407,8 @@ def excluir():
         if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir.lower()
     ]
     
-    with open('Repositorio_de_receitas.txt', 'w', encoding='utf8') as file:
-        file.writelines(linhas_final)
+    with open(file_path, 'w', encoding='utf8') as file:
+        file.writelines(linhas_final)   
 
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
     time.sleep(2)
@@ -478,8 +471,6 @@ def ExcluirFavoritos():
     if not escolhido.strip() or not escolhido.isdigit() or int(escolhido) < 1 or int(escolhido) > len(favoritos):
         os.system('cls')
         tratarErroGeral()
-        
-        
         return
     
     numero = int(escolhido)
@@ -545,6 +536,9 @@ def AdicionarFavoritos():
         tratarErroGeral_sem_o_texto()
         input("Escolha uma opção valida! pressione enter para voltar")
         return
+    except ValueError:
+        tratarErroGeral()
+    
 
 def tratarErroGeral():
     os.system('cls')
@@ -653,7 +647,9 @@ def ListaFavoritos():
         os.system('cls')
         print("===============================================") 
         tratarErroGeral()
-        return   
+        return
+    except ValueError:
+        tratarErroGeral()
 
 def filtragem():
     os.system('cls')
