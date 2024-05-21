@@ -119,45 +119,47 @@ def obter_receitas():
 def selecionar_receitass_view(receitas):
     os.system('cls')
 
-    titulo='''
+    titulo = '''
 █░█ █ █▀ █░█ ▄▀█ █░░ █ ▀█ ▄▀█ █▀▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█
 ▀▄▀ █ ▄█ █▄█ █▀█ █▄▄ █ █▄ █▀█ █▄▄ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █ ░█░ █▀█\n'''
     print(titulo)
+
     try:
         for i, receita in enumerate(receitas, 1):
             print(f"{i:^2} - {receita}")
 
         print("==========================================================")
         numero_str = input("Digite o número da receita que você quer ver: ")
-        
+
         if not numero_str.strip():
             os.system('cls')
             print("Código deu erro. Nenhum número foi fornecido.")
             time.sleep(2)
             os.system('cls')
             return selecionar_receitass_view(receitas)
-        
-        numero = int(numero_str)
-        if numero==0:
-            print("==========================")
-            tratarErroGeral_sem_o_texto()
-            input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
-        
-            return menu_interativo(acao)
-        else:
 
-            return receitas[numero - 1]
+        numero = int(numero_str)
         
-            
+        if numero == 0 or numero > len(receitas):
+            raise IndexError
+        
+        return receitas[numero - 1]
 
     except IndexError:
         print("==========================")
         tratarErroGeral_sem_o_texto()
-        input("\n\nDigite um numero que esteja dentro do intervalo demonstado! Aperte qualquer tecla para voltar:")
-        
-        return menu_interativo(acao)
+        input("\n\nDigite um número que esteja dentro do intervalo demonstrado! Aperte qualquer tecla para voltar:")
+        return selecionar_receitass_view(receitas)
+
+    except ValueError:
+        os.system('cls')
+        print("Entrada inválida. Por favor, digite um número válido.")
+        time.sleep(2)
+        os.system('cls')
+        return selecionar_receitass_view(receitas)
+
     except TypeError:
-        input("pressione enter para voltar ao menu")
+        input("Pressione enter para voltar ao menu")
         return menu_interativo(acao)
     
 
@@ -342,7 +344,7 @@ def edit_preparo_receita(receita_selecionada):
         input("Pressione Enter Para Voltar ao menu principal")
     except ValueError:
         tratarErroGeral()
-        
+
 def atualizar():
     try: 
         receitas = obter_receitas()
@@ -363,17 +365,30 @@ def atualizar():
         tratarErroGeral()
 
 def excluir():
-
     os.system('cls')
-
+    file_path = "Repositorio_de_receitas.txt"
     titulo = '''
 █▀▀ ▀▄▀ █▀▀ █   █ █ █▀ ▄▀█ █▀█   █▀▄ █▀▀   █▀█ █▀▀ █▀▀ █▀▀ █ ▀█▀ ▄▀█ █▀
 ██▄ █ █ █▄▄ █▄▄ █▄█ ▄█ █▀█ █▄█   █▄▀ ██▄   █▀▄ ██▄ █▄▄ ██▄ █  █  █▀█ ▄█
 '''
     print(titulo)
-    
-    receita_excluir = input("Digite o nome da receita que deseja excluir: ").strip().lower()
 
+    receitas = obter_receitas()
+
+    try:
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
+
+        print("==========================================================")
+
+    except TypeError:
+        input("Pressione enter para voltar ao menu")
+        return menu_interativo(acao)
+
+    try:
+        indice_excluir = int(input("Digite o índice da receita que deseja excluir: "))
+    except ValueError:
+        print("Por favor, insira um número válido.")
     with open('Repositorio_de_receitas.txt', 'r', encoding='utf8') as file:
         todas_as_linhas = file.readlines()
     
@@ -384,18 +399,27 @@ def excluir():
         time.sleep(2)
         return
 
+    if indice_excluir < 1 or indice_excluir > len(receitas):
+        print("Índice inválido. Tente novamente.")
+        time.sleep(2)
+        return
+
+    receita_excluir = receitas[indice_excluir - 1]
+
+    with open(file_path, 'r', encoding='utf8') as file:
+        todas_as_linhas = file.readlines()
 
     linhas_final = [
         linha for linha in todas_as_linhas 
-        if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir
+        if linha.strip() and linha.split(' - ')[0].strip().lower() != receita_excluir.lower()
     ]
     
     with open('Repositorio_de_receitas.txt', 'w', encoding='utf8') as file:
         file.writelines(linhas_final)
-    
+
     print(f"Receita '{receita_excluir}' excluída com sucesso.")
     time.sleep(2)
-
+    
 def MenuFavoritos():
     os.system('cls')
     titulo = '''
@@ -452,8 +476,10 @@ def ExcluirFavoritos():
     escolhido = input("Digite o número da receita que deseja excluir dos favoritos: ")
     
     if not escolhido.strip() or not escolhido.isdigit() or int(escolhido) < 1 or int(escolhido) > len(favoritos):
-        print("Escolha inválida.")
-        input("\nPressione Enter para voltar ao menu principal: ")
+        os.system('cls')
+        tratarErroGeral()
+        
+        
         return
     
     numero = int(escolhido)
@@ -476,42 +502,49 @@ def AdicionarFavoritos():
 ▄▀█ █▀▄ █ █▀▀ █ █▀█ █▄ █ ▄▀█ █▀█   ▄▀█ █▀█ █▀   █▀▀ ▄▀█ █ █ █▀█ █▀█ █ ▀█▀ █▀█ █▀
 █▀█ █▄▀ █ █▄▄ █ █▄█ █ ▀█ █▀█ █▀▄   █▀█ █▄█ ▄█   █▀  █▀█ ▀▄▀ █▄█ █▀▄ █  █  █▄█ ▄█\n\n'''
     print(titulo)
+    try:
 
-    with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
-        linhas_arquivo = arquivo.readlines()
-    
-    receitas = []
+        with open("Repositorio_de_receitas.txt", "r", encoding="utf8") as arquivo:
+            linhas_arquivo = arquivo.readlines()
+        
+        receitas = []
 
-    for linha in linhas_arquivo:
-        partes = linha.split(' - ')
-        receitas.append(partes[0])
+        for linha in linhas_arquivo:
+            partes = linha.split(' - ')
+            receitas.append(partes[0])
 
-    listareceitas = obter_receitas()
-    
-    for i, receita in enumerate(receitas, 1):
-        print(f"{i:^2} - {receita}")
+        listareceitas = obter_receitas()
+        
+        for i, receita in enumerate(receitas, 1):
+            print(f"{i:^2} - {receita}")
 
-    print("==========================================================")
-    escolhido = str(input("Digite a posição da receita que deseja adicionar aos favoritos: "))
-    
-    if not escolhido.strip():
+        print("==========================================================")
+        escolhido = str(input("Digite a posição da receita que deseja adicionar aos favoritos: "))
+        
+        if not escolhido.strip():
+            os.system('cls')
+            print("Código deu erro. Nenhum número foi fornecido.")
+            time.sleep(2)
+            os.system('cls')
+            return selecionar_receitass_view(receitas)
+        
+        numero = int(escolhido)
+
+        linha_escolhida = linhas_arquivo[numero - 1].strip()
+        partes = linha_escolhida.split(' - ')
+        partes[-1] = 'True'
+        linhas_arquivo[numero - 1] = ' - '.join(partes) + '\n'
+
+        with open("Repositorio_de_receitas.txt", "w", encoding="utf8") as arquivo:
+            arquivo.writelines(linhas_arquivo)
+
+        return receitas[numero - 1]
+    except IndexError:
         os.system('cls')
-        print("Código deu erro. Nenhum número foi fornecido.")
-        time.sleep(2)
-        os.system('cls')
-        return selecionar_receitass_view(receitas)
-    
-    numero = int(escolhido)
-
-    linha_escolhida = linhas_arquivo[numero - 1].strip()
-    partes = linha_escolhida.split(' - ')
-    partes[-1] = 'True'
-    linhas_arquivo[numero - 1] = ' - '.join(partes) + '\n'
-
-    with open("Repositorio_de_receitas.txt", "w", encoding="utf8") as arquivo:
-        arquivo.writelines(linhas_arquivo)
-
-    return receitas[numero - 1]
+        print("======================================================")
+        tratarErroGeral_sem_o_texto()
+        input("Escolha uma opção valida! pressione enter para voltar")
+        return
 
 def tratarErroGeral():
     os.system('cls')
@@ -559,50 +592,52 @@ def ListaFavoritos():
 █▄▄ █ ▄█  █  █▀█   █▄▀ ██▄   █▀  █▀█ ▀▄▀ █▄█ █▀▄ █  █  █▄█ ▄█\n\n'''
 
     print(titulo)
-    receitas_e_favoritos = [receita.strip().split(' - ') for receita in lista_de_receitas]
+    try:
+        receitas_e_favoritos = [receita.strip().split(' - ') for receita in lista_de_receitas]
 
-    opcao = input("Digite (F) para visualizar as receitas favoritas e (N) para as que não são favoritas: ").upper()
+        opcao = input("Digite (F) para visualizar as receitas favoritas e (N) para as que não são favoritas: ").upper()
 
-    if opcao == 'F':
-        favorito_filtrado = True
-    elif opcao == 'N':
-        favorito_filtrado = False
-    else:
-        tratarErroGeral()
-    
+        if opcao == 'F':
+            favorito_filtrado = True
+        elif opcao == 'N':
+            favorito_filtrado = False
+        else:
+            tratarErroGeral()
+            return
         
+            
 
-    receitas_filtradas = [receita for receita in receitas_e_favoritos if (receita[4] == 'True') == favorito_filtrado]
-    os.system('cls')
-    print(titulo)
-    print("==========================================================")
-    if favorito_filtrado:
-        print("\t\tReceitas Favoritas")
-    else:
+        receitas_filtradas = [receita for receita in receitas_e_favoritos if (receita[4] == 'True') == favorito_filtrado]
         os.system('cls')
         print(titulo)
-        print("\t\tReceitas Não Favoritas")
-    print("==========================================================")
-
-
-    nomes_das_receitas = []
-    j = 1
-    for receita in receitas_filtradas:
-        nome = receita[0]
-        nomes_das_receitas.append(nome)
-        print(f"{j} - {nome}")
-        j += 1
-
-    print("==========================================================")
-    if j == 1:
-        print("Não há receitas disponíveis.")
-    else:
-        indice_receita_escolhida = int(input("Receita: "))
-        os.system('cls')
-        if indice_receita_escolhida > j:
-            return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+        print("==========================================================")
+        if favorito_filtrado:
+            print("\t\tReceitas Favoritas")
         else:
-            receita_escolhida = receitas_filtradas[indice_receita_escolhida - 1]
+            os.system('cls')
+            print(titulo)
+            print("\t\tReceitas Não Favoritas")
+        print("==========================================================")
+
+
+        nomes_das_receitas = []
+        j = 1
+        for receita in receitas_filtradas:
+            nome = receita[0]
+            nomes_das_receitas.append(nome)
+            print(f"{j} - {nome}")
+            j += 1
+
+        print("==========================================================")
+        if j == 1:
+            print("Não há receitas disponíveis.")
+        else:
+            indice_receita_escolhida = int(input("Receita: "))
+            os.system('cls')
+            if indice_receita_escolhida > j:
+                return str(input("Opção invalida. Aperte qualquer tecla para voltar ao menu principal: "))
+            else:
+                receita_escolhida = receitas_filtradas[indice_receita_escolhida - 1]
 
 
             ingredientes = '\n⚬ '.join(receita_escolhida[2].split('|'))
@@ -613,7 +648,12 @@ def ListaFavoritos():
             print(f"Modo de preparo:\n\n☛  {preparo}")
             print("==========================================================")
 
-    voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+        voltar = str(input("Aperte qualquer tecla para voltar ao menu principal: "))
+    except IndexError:
+        os.system('cls')
+        print("===============================================") 
+        tratarErroGeral()
+        return   
 
 def filtragem():
     os.system('cls')
